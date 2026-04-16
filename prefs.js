@@ -1,20 +1,37 @@
 // prefs.js — Apply saved appearance settings on every page
-(function () {
+(async function () {
+  const user = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
+  let settings = {};
+
+  if (user && user.email) {
+    try {
+      const resp = await fetch(`http://localhost:3000/api/user/data?email=${encodeURIComponent(user.email)}`);
+      const data = await resp.json();
+      if (data.success) settings = data.settings || {};
+    } catch (e) { console.error('Failed to load settings from server'); }
+  }
+
+  // Fallback to local storage if server settings are empty
+  const darkMode = settings.darkMode !== undefined ? settings.darkMode : (localStorage.getItem('atelier_dark_mode') === 'true');
+  const fontSize = settings.fontSize || parseInt(localStorage.getItem('atelier_font_size'), 10);
+
   // ── Dark Mode ──────────────────────────────────────────────
-  if (localStorage.getItem('atelier_dark_mode') === 'true') {
+  if (darkMode) {
     document.documentElement.classList.add('dark');
+    localStorage.setItem('atelier_dark_mode', 'true');
   } else {
     document.documentElement.classList.remove('dark');
+    localStorage.setItem('atelier_dark_mode', 'false');
   }
 
   // ── Font Size ──────────────────────────────────────────────
-  const savedSize = parseInt(localStorage.getItem('atelier_font_size'), 10);
-  if (savedSize && savedSize >= 12 && savedSize <= 20) {
-    document.documentElement.style.fontSize = savedSize + 'px';
+  if (fontSize && fontSize >= 12 && fontSize <= 20) {
+    document.documentElement.style.fontSize = fontSize + 'px';
+    localStorage.setItem('atelier_font_size', fontSize);
   }
 })();
 
-// ── Auto-Translate helper (read anywhere) ─────────────────────
 function isAutoTranslateEnabled() {
   return localStorage.getItem('atelier_auto_translate') === 'true';
 }
+

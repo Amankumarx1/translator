@@ -339,14 +339,25 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('atelier_last_results', JSON.stringify(savedResultMap));
 
     // Add to history
-    const history = JSON.parse(localStorage.getItem('atelier_history') || '[]');
-    history.unshift({
+    const historyEntry = {
       input: query,
       results: savedResultMap,
       timestamp: new Date().toISOString(),
       engine: selectedEngine
-    });
-    // Keep only last 50
+    };
+
+    if (user && user.email) {
+      try {
+        await fetch('http://localhost:3000/api/user/save-history', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: user.email, entry: historyEntry })
+        });
+      } catch (e) { console.error('Failed to sync history with server'); }
+    }
+
+    const history = JSON.parse(localStorage.getItem('atelier_history') || '[]');
+    history.unshift(historyEntry);
     if (history.length > 50) history.splice(50);
     localStorage.setItem('atelier_history', JSON.stringify(history));
 
@@ -354,10 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const words = query.split(/\s+/).filter(Boolean).length;
     totalWords += words;
     totalTranslations++;
-    if (statWords) statWords.textContent = totalWords.toLocaleString();
-    if (statTranslations) statTranslations.textContent = totalTranslations;
-    statStatus.textContent = 'cloud_done';
-    statStatus.style.color = '#4956b4';
+    updateStatsUI();
 
     // Reset button
     translateBtnText.textContent = 'Translate All';
@@ -367,6 +375,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     showToast('All 5 translations complete!', 'check_circle', 'success');
   }
+
+  function updateStatsUI() {
+    if (statWords) statWords.textContent = totalWords.toLocaleString();
+    if (statTranslations) statTranslations.textContent = totalTranslations;
+    statStatus.textContent = 'cloud_done';
+    statStatus.style.color = '#4956b4';
+  }
+
+  async function loadSession() {
+    const user = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
+    let history = JSON.parse(localStorage.getItem('atelier_history') || '[]');
+
+    if (user && user.email) {
+      try {
+        const resp = await fetch(`http://localhost:3000/api/user/data?email=${encodeURIComponent(user.email)}`);
+        const data = await resp.json();
+        if (data.success && data.history) {
+          history = data.history;
+          localStorage.setItem('atelier_history', JSON.stringify(history));
+        }
+      } catch (e) { console.error('Failed to load session from server'); }
+    }
+
+    // Restore last input/results
+    const lastInput = localStorage.getItem('atelier_last_input');
+    const lastResults = JSON.parse(localStorage.getItem('atelier_last_results') || '{}');
+    if (lastInput && inputText) inputText.value = lastInput;
+    if (lastResults) {
+      Object.keys(lastResults).forEach(id => {
+        const el = document.getElementById(`result-${id}`);
+        if (el) {
+          el.textContent = lastResults[id];
+          el.classList.remove('skeleton', 'italic');
+        }
+      });
+    }
+
+    // Calculate stats from history
+    totalTranslations = history.length;
+    totalWords = history.reduce((sum, h) => sum + (h.input || '').split(/\s+/).filter(Boolean).length, 0);
+    updateStatsUI();
+  }
+
+  loadSession();
 
   if (engineSelect) {
     const savedEngine = localStorage.getItem('atelier_engine') || (sessionStorage.getItem('atelier_azure_key') || sessionStorage.getItem('atelier_azure_region') || sessionStorage.getItem('atelier_azure_endpoint') ? 'azure' : 'google');
