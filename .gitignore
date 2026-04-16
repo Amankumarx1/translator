@@ -1,0 +1,17 @@
+# Windows metadata
+[Dd]esktop.ini
+Thumbs.db
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+
+# Logs
+*.log
+
+# Sensitive info (Azure keys should not be committed if they represent a security risk)
+# Note: session-based keys in sessionStorage are usually safe, 
+# but permanent local storage backups should be avoided.
+node_modules/
+dist/
+.env
