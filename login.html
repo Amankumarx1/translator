@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Login | The Linguistic Atelier</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f8f9fa",
+                        "surface-container": "#ebeef0",
+                        "on-surface": "#2d3335",
+                        "surface-variant": "#dee3e6",
+                        "on-primary-fixed": "#000000",
+                        "tertiary-container": "#ecc8f6",
+                        "secondary-dim": "#505266",
+                        "on-primary-fixed-variant": "#0e1d7f",
+                        "error-dim": "#6b0221",
+                        "background": "#f8f9fa",
+                        "on-secondary-fixed-variant": "#585a6f",
+                        "outline": "#767c7e",
+                        "surface-container-highest": "#dee3e6",
+                        "tertiary-fixed-dim": "#debbe7",
+                        "inverse-surface": "#0c0f10",
+                        "on-surface-variant": "#5a6062",
+                        "surface-tint": "#4956b4",
+                        "tertiary": "#71557b",
+                        "surface": "#f8f9fa",
+                        "outline-variant": "#adb3b5",
+                        "on-secondary-container": "#4f5065",
+                        "inverse-primary": "#8c99fc",
+                        "secondary": "#5c5e72",
+                        "primary-container": "#8c99fc",
+                        "primary-fixed": "#8c99fc",
+                        "on-tertiary-fixed": "#462c50",
+                        "on-primary": "#fbf8ff",
+                        "error-container": "#f97386",
+                        "on-secondary": "#fbf8ff",
+                        "tertiary-dim": "#65496f",
+                        "secondary-fixed": "#e0e0f9",
+                        "error": "#a8364b",
+                        "inverse-on-surface": "#9b9d9e",
+                        "on-primary-container": "#001075",
+                        "primary-fixed-dim": "#7f8ced",
+                        "surface-container-high": "#e5e9eb",
+                        "on-error": "#fff7f7",
+                        "surface-dim": "#d5dbdd",
+                        "secondary-fixed-dim": "#d2d2eb",
+                        "on-tertiary-container": "#5a3f64",
+                        "tertiary-fixed": "#ecc8f6",
+                        "on-secondary-fixed": "#3c3e51",
+                        "on-tertiary-fixed-variant": "#64486e",
+                        "secondary-container": "#e0e0f9",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#fff7fc",
+                        "on-error-container": "#6e0523",
+                        "primary-dim": "#3d4aa7",
+                        "on-background": "#2d3335",
+                        "primary": "#4956b4",
+                        "surface-container-low": "#f1f4f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .ghost-border {
+            box-shadow: inset 0 0 0 1px rgba(173, 179, 181, 0.15);
+        }
+
+        .ambient-depth {
+            box-shadow: 0 10px 32px -4px rgba(73, 86, 180, 0.04);
+        }
+
+        .whisper-gradient {
+            background: linear-gradient(90deg, transparent, #8c99fc, transparent);
+            background-size: 200% 100%;
+        }
+    </style>
+</head>
+
+<body class="bg-surface font-body text-on-surface flex flex-col min-h-screen overflow-hidden">
+    <header
+        class="w-full top-0 left-0 bg-surface dark:bg-zinc-950 flex justify-between items-center px-4 sm:px-6 py-3 max-w-full mx-auto">
+        <div class="text-2xl font-black tracking-tight text-on-surface dark:text-zinc-100 font-headline">
+            The Linguistic Atelier
+        </div>
+        <div class="flex items-center gap-4 text-indigo-700 dark:text-indigo-400">
+            <span
+                class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors duration-300 active:scale-95 duration-200"
+                data-icon="translate">translate</span>
+            <span
+                class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors duration-300 active:scale-95 duration-200"
+                data-icon="account_circle">account_circle</span>
+        </div>
+    </header>
+    <main class="flex-1 flex items-center justify-center px-4 py-4 relative overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+            <div class="absolute top-[-10%] right-[-5%] w-96 h-96 bg-primary-container rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-[-10%] left-[-5%] w-96 h-96 bg-tertiary-container rounded-full blur-[120px]">
+            </div>
+        </div>
+        <div class="w-full max-w-[400px] z-10">
+            <div class="bg-surface-container-lowest rounded-xl p-5 md:p-8 ambient-depth relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-primary-fixed"></div>
+                <div class="mb-10">
+                    <h1 class="font-headline font-bold text-3xl tracking-tight mb-2">Welcome Back</h1>
+                    <p class="text-on-surface-variant font-body text-sm">Enter your credentials to access your
+                        workspace.</p>
+                </div>
+                <form class="space-y-6" id="loginForm">
+                    <div class="space-y-1.5">
+                        <label
+                            class="block text-xs font-semibold uppercase tracking-widest text-on-surface-variant ml-1"
+                            for="email">Email Address</label>
+                        <input
+                            class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3.5 focus:ring-1 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all duration-300 placeholder:text-outline-variant"
+                            id="email" placeholder="polyglot@atelier.com" type="email" />
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between items-center px-1">
+                            <label class="block text-xs font-semibold uppercase tracking-widest text-on-surface-variant"
+                                for="password">Password</label>
+                            <a class="text-xs font-medium text-primary hover:underline decoration-primary-container underline-offset-4"
+                                href="#">Forgot Password?</a>
+                        </div>
+                        <input
+                            class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3.5 focus:ring-1 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all duration-300 placeholder:text-outline-variant"
+                            id="password" placeholder="••••••••" type="password" />
+                    </div>
+                    <button
+                        class="w-full bg-gradient-to-r from-primary to-primary-dim text-on-primary font-semibold py-4 rounded-full active:scale-95 transition-transform duration-200 shadow-md shadow-primary/10"
+                        type="submit">
+                        Continue to Workspace
+                    </button>
+                    <div id="loginMessage" class="text-sm text-red-600 mt-3 hidden"></div>
+                </form>
+
+                <div class="mt-10 text-center">
+                    <p class="text-sm text-on-surface-variant">
+                        New to the Atelier?
+                        <a class="font-bold text-primary hover:text-primary-dim transition-colors ml-1" href="signup.html">Create
+                            an Account</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <footer
+        class="w-full py-8 bg-transparent flex flex-col md:flex-row justify-center gap-6 items-center w-full px-8 mt-auto">
+        <div class="font-inter text-xs uppercase tracking-widest text-on-surface-variant">
+            © 2024 The Linguistic Atelier. All rights reserved.
+        </div>
+        <div class="flex gap-6">
+            <a class="font-inter text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary underline transition-all opacity-80 hover:opacity-100"
+                href="#">Terms of Service</a>
+            <a class="font-inter text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary underline transition-all opacity-80 hover:opacity-100"
+                href="#">Privacy Policy</a>
+            <a class="font-inter text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary underline transition-all opacity-80 hover:opacity-100"
+                href="#">Contact Support</a>
+        </div>
+    </footer>
+    <script src="auth.js"></script>
+    <script>
+        if (isAuthenticated()) {
+            window.location.href = 'index.html';
+        }
+
+        const loginForm = document.getElementById('loginForm');
+        const loginMessage = document.getElementById('loginMessage');
+
+        function showLoginMessage(message) {
+            loginMessage.textContent = message;
+            loginMessage.classList.remove('hidden');
+        }
+
+        function clearLoginMessage() {
+            loginMessage.textContent = '';
+            loginMessage.classList.add('hidden');
+        }
+
+        loginForm?.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            clearLoginMessage();
+
+            const email = document.getElementById('email')?.value.trim();
+            const password = document.getElementById('password')?.value.trim();
+
+            if (!email || !password) {
+                showLoginMessage('Email and password are required.');
+                return;
+            }
+
+            const result = await authenticateUser(email, password);
+            if (!result.success) {
+                showLoginMessage(result.message);
+                return;
+            }
+
+            loginUser(result.user);
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+
+</html>

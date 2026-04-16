@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Sign Up | The Linguistic Atelier</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f8f9fa",
+                        "surface-container": "#ebeef0",
+                        "on-surface": "#2d3335",
+                        "surface-variant": "#dee3e6",
+                        "on-primary-fixed": "#000000",
+                        "tertiary-container": "#ecc8f6",
+                        "secondary-dim": "#505266",
+                        "on-primary-fixed-variant": "#0e1d7f",
+                        "error-dim": "#6b0221",
+                        "background": "#f8f9fa",
+                        "on-secondary-fixed-variant": "#585a6f",
+                        "outline": "#767c7e",
+                        "surface-container-highest": "#dee3e6",
+                        "tertiary-fixed-dim": "#debbe7",
+                        "inverse-surface": "#0c0f10",
+                        "on-surface-variant": "#5a6062",
+                        "surface-tint": "#4956b4",
+                        "tertiary": "#71557b",
+                        "surface": "#f8f9fa",
+                        "outline-variant": "#adb3b5",
+                        "on-secondary-container": "#4f5065",
+                        "inverse-primary": "#8c99fc",
+                        "secondary": "#5c5e72",
+                        "primary-container": "#8c99fc",
+                        "primary-fixed": "#8c99fc",
+                        "on-tertiary-fixed": "#462c50",
+                        "on-primary": "#fbf8ff",
+                        "error-container": "#f97386",
+                        "on-secondary": "#fbf8ff",
+                        "tertiary-dim": "#65496f",
+                        "secondary-fixed": "#e0e0f9",
+                        "error": "#a8364b",
+                        "inverse-on-surface": "#9b9d9e",
+                        "on-primary-container": "#001075",
+                        "primary-fixed-dim": "#7f8ced",
+                        "surface-container-high": "#e5e9eb",
+                        "on-error": "#fff7f7",
+                        "surface-dim": "#d5dbdd",
+                        "secondary-fixed-dim": "#d2d2eb",
+                        "on-tertiary-container": "#5a3f64",
+                        "tertiary-fixed": "#ecc8f6",
+                        "on-secondary-fixed": "#3c3e51",
+                        "on-tertiary-fixed-variant": "#64486e",
+                        "secondary-container": "#e0e0f9",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#fff7fc",
+                        "on-error-container": "#6e0523",
+                        "primary-dim": "#3d4aa7",
+                        "on-background": "#2d3335",
+                        "primary": "#4956b4",
+                        "surface-container-low": "#f1f4f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-surface min-h-screen flex flex-col overflow-hidden">
+    <!-- TopAppBar -->
+    <header
+        class="w-full top-0 left-0 bg-surface dark:bg-zinc-950 flex justify-between items-center px-4 sm:px-6 py-3 max-w-full mx-auto">
+        <div class="text-2xl font-black tracking-tight text-on-surface dark:text-zinc-100 font-manrope">
+            The Linguistic Atelier
+        </div>
+        <div class="flex items-center gap-4">
+            <button
+                class="material-symbols-outlined text-indigo-700 dark:text-indigo-400 p-2 hover:bg-surface-container-low rounded-full transition-colors duration-300"
+                data-icon="translate">translate</button>
+            <button
+                class="material-symbols-outlined text-indigo-700 dark:text-indigo-400 p-2 hover:bg-surface-container-low rounded-full transition-colors duration-300"
+                data-icon="account_circle">account_circle</button>
+        </div>
+    </header>
+    <main class="flex-1 flex items-center justify-center px-4 py-4 md:py-6 relative overflow-hidden">
+        <!-- Abstract Background Decorative Elements -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-tertiary-container/10 rounded-full blur-3xl">
+        </div>
+        <div
+            class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-0 bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm relative z-10">
+            <!-- Branding/Visual Side -->
+            <div class="hidden md:flex flex-col justify-between p-8 bg-surface-container-low relative">
+                <div class="relative z-20">
+                    <h1 class="text-4xl lg:text-5xl font-black text-on-surface leading-tight mb-6 tracking-tight">
+                        Crafting the future of <span class="text-primary italic">global dialogue</span>.
+                    </h1>
+                    <p class="text-on-surface-variant text-lg max-w-md font-body leading-relaxed">
+                        Join a curated space where language meets editorial precision. Experience translation as an art
+                        form.
+                    </p>
+                </div>
+                <!-- Featured Image / Graphic -->
+                <div class="mt-8 relative h-52 lg:h-64 w-full rounded-2xl overflow-hidden">
+                    <img alt="Digital Workspace"
+                        class="w-full h-full object-cover grayscale opacity-80 mix-blend-multiply"
+                        data-alt="Minimalist workspace with a fountain pen, leather notebook, and a sleek laptop on a light marble surface with soft daylight shadows."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmfcr1qFDQDNqiFmfPG5X1ijSfdypwYuCIShr_EoSeSIp4g4Py46UvwPsAJPH_5ymmD6FQku77pZGS7kahvKrAVWkYzSLkZ9x6d1FTBONmaj55BkVJUIfDnfS4knN1-lT5BFpyD6CEm_BxLHPgkrSgXDw-0vyD_dI1NDXKNfclE6lXVLU09G_d2g-oGLZjjgDjahnggd9QYJ07Vk7CyX-VZCDFwFur7qs7Ri-q3a9ONTPfz8N-kdS7y96pLflzOh9SRwGFKni7J2U" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent">
+                    </div>
+                </div>
+                <div
+                    class="flex items-center gap-4 text-on-surface-variant text-sm font-label uppercase tracking-widest">
+                    <span>Precision</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary/30"></span>
+                    <span>Nuance</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary/30"></span>
+                    <span>Elegance</span>
+                </div>
+            </div>
+            <!-- Form Side -->
+            <div class="p-6 md:p-10 lg:p-12 flex flex-col justify-center">
+                <div class="mb-10">
+                    <h2 class="text-3xl font-bold text-on-surface mb-2 font-headline">Begin Your Journey</h2>
+                    <p class="text-on-surface-variant font-body">Enter your details to create your workspace.</p>
+                </div>
+                <form class="space-y-6" id="signupForm">
+                    <div class="space-y-2">
+                        <label
+                            class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant ml-1 font-label">Full
+                            Name</label>
+                        <input
+                            class="w-full px-5 py-4 bg-surface-container-high border-none rounded-xl text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all placeholder:text-outline-variant outline-none"
+                            id="fullName" placeholder="Julianne Smith" type="text" />
+                    </div>
+                    <div class="space-y-2">
+                        <label
+                            class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant ml-1 font-label">Email
+                            Address</label>
+                        <input
+                            class="w-full px-5 py-4 bg-surface-container-high border-none rounded-xl text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all placeholder:text-outline-variant outline-none"
+                            id="email" placeholder="julianne@atelier.com" type="email" />
+                    </div>
+                    <div class="space-y-2">
+                        <label
+                            class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant ml-1 font-label">Password</label>
+                        <input
+                            class="w-full px-5 py-4 bg-surface-container-high border-none rounded-xl text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all placeholder:text-outline-variant outline-none"
+                            id="password" placeholder="••••••••" type="password" />
+                    </div>
+                    <div class="pt-2">
+                        <button
+                            class="w-full py-4 bg-gradient-to-r from-primary to-primary-dim text-on-primary font-bold rounded-full shadow-lg shadow-primary/20 hover:scale-[0.98] transition-transform duration-200"
+                            type="submit">
+                            Create Account
+                        </button>
+                        <div id="signupMessage" class="text-sm text-red-600 mt-3 hidden"></div>
+                    </div>
+                </form>
+                <p class="mt-10 text-center text-on-surface-variant text-sm font-body">
+                    Already part of the atelier?
+                    <a class="text-primary font-bold hover:underline ml-1 transition-all" href="login.html">Log In</a>
+                </p>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="w-full py-8 flex flex-col md:flex-row justify-center gap-6 items-center px-8 mt-auto bg-transparent">
+        <div class="font-inter text-xs uppercase tracking-widest text-on-surface-variant">
+            © 2024 The Linguistic Atelier. All rights reserved.
+        </div>
+        <div class="flex gap-6">
+            <a class="font-inter text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary underline transition-all opacity-80 hover:opacity-100"
+                href="#">Terms of Service</a>
+            <a class="font-inter text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary underline transition-all opacity-80 hover:opacity-100"
+                href="#">Privacy Policy</a>
+            <a class="font-inter text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary underline transition-all opacity-80 hover:opacity-100"
+                href="#">Contact Support</a>
+        </div>
+    </footer>
+    <script src="auth.js"></script>
+    <script>
+        if (isAuthenticated()) {
+            window.location.href = 'index.html';
+        }
+
+        const signupForm = document.getElementById('signupForm');
+        const signupMessage = document.getElementById('signupMessage');
+
+        function showSignupMessage(message) {
+            signupMessage.textContent = message;
+            signupMessage.classList.remove('hidden');
+        }
+
+        function clearSignupMessage() {
+            signupMessage.textContent = '';
+            signupMessage.classList.add('hidden');
+        }
+
+        signupForm?.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            clearSignupMessage();
+
+            const fullName = document.getElementById('fullName')?.value.trim();
+            const email = document.getElementById('email')?.value.trim();
+            const password = document.getElementById('password')?.value.trim();
+
+            if (!fullName || !email || !password) {
+                showSignupMessage('Name, email, and password are required.');
+                return;
+            }
+            if (password.length < 8) {
+                showSignupMessage('Password must be at least 8 characters long.');
+                return;
+            }
+
+            const result = await createUser(email, password, fullName);
+            if (!result.success) {
+                showSignupMessage(result.message);
+                return;
+            }
+
+            loginUser(result.user);
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+
+</html>

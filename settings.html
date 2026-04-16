@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings - The Linguistic Atelier</title>
+<meta name="description" content="Customize your Linguistic Atelier workspace for maximum precision."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "surface-container-low": "#f1f4f5", "on-tertiary-fixed-variant": "#64486e",
+          "surface-variant": "#dee3e6", "outline-variant": "#adb3b5", "on-secondary": "#fbf8ff",
+          "primary": "#4956b4", "primary-fixed-dim": "#7f8ced", "surface-tint": "#4956b4",
+          "secondary-fixed-dim": "#d2d2eb", "surface-container-high": "#e5e9eb",
+          "background": "#f8f9fa", "surface": "#f8f9fa", "secondary-dim": "#505266",
+          "on-primary-fixed": "#000000", "tertiary-fixed-dim": "#debbe7", "on-tertiary": "#fff7fc",
+          "primary-container": "#8c99fc", "error-dim": "#6b0221", "on-tertiary-fixed": "#462c50",
+          "tertiary-container": "#ecc8f6", "tertiary": "#71557b", "on-error": "#fff7f7",
+          "surface-container-highest": "#dee3e6", "on-secondary-container": "#4f5065",
+          "inverse-primary": "#8c99fc", "surface-container-lowest": "#ffffff",
+          "on-primary-fixed-variant": "#0e1d7f", "error": "#a8364b", "surface-bright": "#f8f9fa",
+          "on-surface": "#2d3335", "error-container": "#f97386", "on-primary": "#fbf8ff",
+          "outline": "#767c7e", "on-tertiary-container": "#5a3f64", "secondary-fixed": "#e0e0f9",
+          "secondary": "#5c5e72", "on-secondary-fixed": "#3c3e51", "on-error-container": "#6e0523",
+          "primary-fixed": "#8c99fc", "primary-dim": "#3d4aa7", "surface-dim": "#d5dbdd",
+          "secondary-container": "#e0e0f9", "tertiary-fixed": "#ecc8f6", "tertiary-dim": "#65496f",
+          "on-surface-variant": "#5a6062", "surface-container": "#ebeef0",
+          "inverse-on-surface": "#9b9d9e", "inverse-surface": "#0c0f10",
+          "on-background": "#2d3335", "on-secondary-fixed-variant": "#585a6f",
+          "on-primary-container": "#001075"
+        },
+        borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+        fontFamily: { "headline": ["Manrope"], "body": ["Inter"], "label": ["Inter"] }
+      }
+    }
+  }
+</script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="prefs.js"></script>
+</head>
+
+<body class="bg-surface text-on-surface min-h-screen">
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f1f4f5] flex flex-col py-8 space-y-6 z-50">
+  <div class="px-8 mb-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary">
+        <span class="material-symbols-outlined">translate</span>
+      </div>
+      <div>
+        <h2 class="font-headline font-black text-primary text-lg leading-tight">The Atelier</h2>
+        <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold opacity-60">Polyglot Workspace</p>
+      </div>
+    </div>
+  </div>
+  <div class="px-4">
+    <a href="index.html" class="w-full py-3 px-6 bg-gradient-to-r from-primary to-primary-fixed-dim text-on-primary rounded-full font-headline font-bold shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-transform active:scale-95">
+      <span class="material-symbols-outlined">add</span>
+      New Translation
+    </a>
+  </div>
+  <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+    <a href="index.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+      <span class="material-symbols-outlined">translate</span>
+      <span class="font-headline text-sm font-semibold">Translate</span>
+    </a>
+    <a href="languages.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+      <span class="material-symbols-outlined">language</span>
+      <span class="font-headline text-sm font-semibold">Languages</span>
+    </a>
+    <a href="history.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+      <span class="material-symbols-outlined">history</span>
+      <span class="font-headline text-sm font-semibold">History</span>
+    </a>
+    <a href="settings.html" class="flex items-center gap-3 py-3 text-primary font-bold border-l-4 border-primary-fixed-dim pl-4 bg-surface-container-low rounded-r-lg transition-all">
+      <span class="material-symbols-outlined">settings</span>
+      <span class="font-headline text-sm font-semibold">Settings</span>
+    </a>
+    <a href="#" id="logoutLink" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+      <span class="material-symbols-outlined">logout</span>
+      <span class="font-headline text-sm font-semibold">Logout</span>
+    </a>
+  </nav>
+  <div class="px-8 pt-6">
+    <div class="rounded-xl bg-surface-container-high p-4 flex flex-col gap-3">
+      <p class="text-xs font-semibold text-on-surface-variant">Active Workspace</p>
+      <div class="flex items-center gap-2">
+        <div class="auth-user-initials w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary text-xs font-bold">--</div>
+        <span class="auth-user-name text-xs font-bold">Loading...</span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- Main Content -->
+<main class="ml-64 p-12 max-w-6xl mx-auto">
+  <header class="mb-12">
+    <h1 class="text-4xl font-extrabold tracking-tight text-on-surface mb-2">Settings</h1>
+    <p class="text-on-surface-variant font-medium">Customize your linguistic workspace for maximum precision.</p>
+  </header>
+
+  <div class="grid grid-cols-12 gap-8">
+    <!-- Left Column -->
+    <div class="col-span-12 lg:col-span-7 space-y-8">
+
+      <!-- Translation Engine -->
+      <section class="bg-surface-container-lowest p-8 rounded-xl shadow-[0_32px_32px_-16px_rgba(73,86,180,0.04)]">
+        <div class="flex items-center space-x-3 mb-6">
+          <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+          <h2 class="text-xl font-bold">Translation Engine</h2>
+        </div>
+        <div class="space-y-4" id="engineOptions">
+          <!-- Google (Free) -->
+          <label class="group relative flex items-center p-4 rounded-xl border-2 border-primary/30 bg-surface-container-low hover:bg-surface-container-high transition-all cursor-pointer" id="label-google">
+            <input id="engine-google" checked class="w-5 h-5 text-primary focus:ring-primary border-outline-variant" name="engine" type="radio" value="google"/>
+            <div class="ml-4 flex-1">
+              <span class="block font-bold text-on-surface">Google Translate (Free)</span>
+              <span class="text-xs text-on-surface-variant">No key needed. Fast, 130+ languages. 5 parallel requests.</span>
+            </div>
+            <span id="badge-google" class="bg-primary-fixed text-on-primary-container text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-tighter">Active</span>
+          </label>
+          <!-- Azure -->
+          <label class="group relative flex items-center p-4 rounded-xl border border-transparent bg-surface-container-low hover:bg-surface-container-high transition-all cursor-pointer" id="label-azure">
+            <input id="engine-azure" class="w-5 h-5 text-primary focus:ring-primary border-outline-variant" name="engine" type="radio" value="azure"/>
+            <div class="ml-4 flex-1">
+              <span class="block font-bold text-on-surface">Azure Translator API</span>
+              <span class="text-xs text-on-surface-variant">Your own key &amp; region. All 5 languages in a single request.</span>
+            </div>
+            <span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-tighter">Bring Key</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Azure Credentials -->
+      <section id="azureCredentialsSection" class="bg-surface-container-lowest p-8 rounded-xl shadow-[0_32px_32px_-16px_rgba(73,86,180,0.04)] hidden">
+        <div class="flex items-center space-x-3 mb-2">
+          <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">vpn_key</span>
+          <h2 class="text-xl font-bold">Azure Credentials</h2>
+        </div>
+        <p class="text-xs text-on-surface-variant mb-6">Find these in your <strong>Azure portal → Cognitive Services → Keys and Endpoint</strong>.</p>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">API Key</label>
+            <input id="azureKey" type="password" placeholder="e.g. a1b2c3d4e5f6..." autocomplete="off"
+              class="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all font-mono"/>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Region</label>
+              <input id="azureRegion" type="text" placeholder="e.g. eastus" autocomplete="off"
+                class="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"/>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Endpoint (optional)</label>
+              <input id="azureEndpoint" type="text" placeholder="api.cognitive.microsofttranslator.com" autocomplete="off"
+                class="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"/>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 pt-2">
+            <button id="testAzureBtn" class="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container-high border border-outline-variant/30 text-sm font-bold text-on-surface transition-all">
+              <span class="material-symbols-outlined text-sm">network_check</span>
+              Test Connection
+            </button>
+            <span id="azureTestStatus" class="text-xs font-semibold text-on-surface-variant"></span>
+          </div>
+          <div class="bg-surface-container-low rounded-lg px-4 py-3 flex items-start gap-3">
+            <span class="material-symbols-outlined text-outline text-sm mt-0.5">lock</span>
+            <p class="text-[11px] text-on-surface-variant leading-relaxed">Your credentials are stored only for this browser session and are not persisted permanently. They are transmitted directly to Azure.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Keyboard Shortcuts -->
+      <section class="bg-surface-container-low p-8 rounded-xl">
+        <div class="flex justify-between items-center mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="material-symbols-outlined text-primary">keyboard</span>
+            <h2 class="text-xl font-bold">Keyboard Shortcuts</h2>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-surface-container-lowest p-4 rounded-lg flex justify-between items-center">
+            <span class="text-sm font-medium text-on-surface-variant">Translate Now</span>
+            <kbd class="bg-surface-variant px-2 py-1 rounded text-xs font-bold border-b-2 border-outline">Ctrl + Enter</kbd>
+          </div>
+          <div class="bg-surface-container-lowest p-4 rounded-lg flex justify-between items-center">
+            <span class="text-sm font-medium text-on-surface-variant">Clear Workspace</span>
+            <kbd class="bg-surface-variant px-2 py-1 rounded text-xs font-bold border-b-2 border-outline">Ctrl + Del</kbd>
+          </div>
+          <div class="bg-surface-container-lowest p-4 rounded-lg flex justify-between items-center">
+            <span class="text-sm font-medium text-on-surface-variant">Copy All Results</span>
+            <kbd class="bg-surface-variant px-2 py-1 rounded text-xs font-bold border-b-2 border-outline">Ctrl + Shift + C</kbd>
+          </div>
+          <div class="bg-surface-container-lowest p-4 rounded-lg flex justify-between items-center">
+            <span class="text-sm font-medium text-on-surface-variant">Focus Input</span>
+            <kbd class="bg-surface-variant px-2 py-1 rounded text-xs font-bold border-b-2 border-outline">Ctrl + /</kbd>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Right Column -->
+    <div class="col-span-12 lg:col-span-5 space-y-8">
+
+      <!-- Appearance -->
+      <section class="bg-surface-container-lowest p-8 rounded-xl shadow-[0_32px_32px_-16px_rgba(73,86,180,0.04)]">
+        <div class="flex items-center space-x-3 mb-8">
+          <span class="material-symbols-outlined text-primary">palette</span>
+          <h2 class="text-xl font-bold">Appearance</h2>
+        </div>
+        <div class="space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="block font-bold text-on-surface">Dark Mode</span>
+              <span class="text-xs text-on-surface-variant">Reduces eye strain in low light.</span>
+            </div>
+            <button id="darkModeToggle" class="relative w-12 h-6 rounded-full bg-surface-container-high flex items-center toggle-track">
+              <div class="absolute left-1 w-4 h-4 bg-white rounded-full shadow-sm toggle-thumb"></div>
+            </button>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="block font-bold text-on-surface">Auto-Translate</span>
+              <span class="text-xs text-on-surface-variant">Translate as you type (debounced).</span>
+            </div>
+            <button id="autoTranslateToggle" class="relative w-12 h-6 rounded-full bg-surface-container-high flex items-center toggle-track">
+              <div class="absolute left-1 w-4 h-4 bg-white rounded-full shadow-sm toggle-thumb"></div>
+            </button>
+          </div>
+        </div>
+        <div class="mt-8 pt-8 border-t border-surface-container">
+          <label class="block text-sm font-bold mb-3">Workspace Font Size</label>
+          <input id="fontSizeSlider" class="w-full h-2 bg-secondary-container rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="12" max="20" value="16"/>
+          <div class="flex justify-between text-[10px] font-bold text-on-surface-variant mt-2 uppercase tracking-tighter">
+            <span>Compact</span><span>Standard</span><span>Expressive</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Account Card -->
+      <section class="relative overflow-hidden bg-primary p-8 rounded-xl text-on-primary group">
+        <div class="relative z-10">
+          <div class="flex items-center space-x-4 mb-6">
+            <div class="auth-user-initials w-16 h-16 rounded-full border-2 border-primary-container bg-primary-fixed-dim flex items-center justify-center text-on-primary-container text-2xl font-black">--</div>
+            <div>
+              <h3 class="auth-user-name text-lg font-bold">Loading...</h3>
+              <p class="auth-user-email text-primary-fixed text-xs"></p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <button class="w-full bg-white/10 hover:bg-white/20 py-2 rounded-lg text-sm font-bold transition-all flex items-center justify-center space-x-2">
+              <span class="material-symbols-outlined text-sm">manage_accounts</span>
+              <span>Manage Account</span>
+            </button>
+            <button id="saveSettingsBtn" class="w-full bg-white/10 hover:bg-white/20 py-2 rounded-lg text-sm font-bold transition-all flex items-center justify-center space-x-2">
+              <span class="material-symbols-outlined text-sm">cloud_done</span>
+              <span>Save Preferences</span>
+            </button>
+            <button id="signOutBtn" class="w-full text-white/60 hover:text-white mt-4 py-2 text-xs font-bold uppercase tracking-widest transition-all">Sign Out</button>
+          </div>
+        </div>
+        <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-primary-container opacity-20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+      </section>
+
+      <!-- Privacy Note -->
+      <section class="bg-surface-container-high/50 p-6 rounded-xl border-l-4 border-tertiary">
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          <strong class="text-on-surface block mb-1">Privacy First Translation</strong>
+          Translations are processed via the Google Translate free endpoint. No data is stored or used for model training. Your text stays private.
+        </p>
+      </section>
+    </div>
+  </div>
+</main>
+
+<!-- Toast Notification -->
+<div id="toast" class="fixed bottom-8 right-8 flex items-center space-x-4 bg-on-surface text-surface py-3 px-6 rounded-full shadow-2xl opacity-0 translate-y-4 pointer-events-none transition-all duration-400 z-50">
+  <span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+  <span class="text-sm font-bold">Settings saved successfully</span>
+</div>
+
+<script src="auth.js"></script>
+<script>
+  const azureSection = document.getElementById('azureCredentialsSection');
+  const engineGoogle = document.getElementById('engine-google');
+  const engineAzure  = document.getElementById('engine-azure');
+  const labelGoogle  = document.getElementById('label-google');
+  const labelAzure   = document.getElementById('label-azure');
+  const badgeGoogle  = document.getElementById('badge-google');
+
+  // Load saved prefs
+  const savedKey      = sessionStorage.getItem('atelier_azure_key')      || '';
+  const savedRegion   = sessionStorage.getItem('atelier_azure_region')   || '';
+  const savedEndpoint = sessionStorage.getItem('atelier_azure_endpoint') || '';
+  const savedEngine   = localStorage.getItem('atelier_engine') || (savedKey || savedRegion || savedEndpoint ? 'azure' : 'google');
+
+  if (savedEngine === 'azure') {
+    engineAzure.checked = true;
+    engineGoogle.checked = false;
+    azureSection.classList.remove('hidden');
+    labelAzure.classList.add('border-2', 'border-primary/30');
+    labelAzure.classList.remove('border');
+    labelGoogle.classList.remove('border-2', 'border-primary/30');
+    labelGoogle.classList.add('border');
+    badgeGoogle.classList.add('hidden');
+  }
+  if (savedKey)      document.getElementById('azureKey').value      = savedKey;
+  if (savedRegion)   document.getElementById('azureRegion').value   = savedRegion;
+  if (savedEndpoint) document.getElementById('azureEndpoint').value = savedEndpoint;
+
+  // Engine toggle
+  function updateEngineUI(selected) {
+    if (selected === 'azure') {
+      azureSection.classList.remove('hidden');
+      labelAzure.classList.add('border-2', 'border-primary/30');
+      labelAzure.classList.remove('border', 'border-transparent');
+      labelGoogle.classList.remove('border-2', 'border-primary/30');
+      labelGoogle.classList.add('border', 'border-transparent');
+      badgeGoogle.classList.add('hidden');
+    } else {
+      azureSection.classList.add('hidden');
+      labelGoogle.classList.add('border-2', 'border-primary/30');
+      labelGoogle.classList.remove('border', 'border-transparent');
+      labelAzure.classList.remove('border-2', 'border-primary/30');
+      labelAzure.classList.add('border', 'border-transparent');
+      badgeGoogle.classList.remove('hidden');
+    }
+  }
+  engineGoogle.addEventListener('change', () => updateEngineUI('google'));
+  engineAzure.addEventListener('change',  () => updateEngineUI('azure'));
+
+  // Test Azure connection
+  document.getElementById('testAzureBtn').addEventListener('click', async () => {
+    const key      = document.getElementById('azureKey').value.trim();
+    const region   = document.getElementById('azureRegion').value.trim();
+    const endpoint = document.getElementById('azureEndpoint').value.trim() || 'api.cognitive.microsofttranslator.com';
+    const status   = document.getElementById('azureTestStatus');
+    if (!key || !region) { status.textContent = '⚠ Enter key and region first.'; status.style.color = '#f59e0b'; return; }
+    status.textContent = 'Testing...';
+    status.style.color = '#5a6062';
+    try {
+      const response = await fetch(`https://${endpoint}/translate?api-version=3.0&to=es`, {
+        method: 'POST',
+        headers: { 'Ocp-Apim-Subscription-Key': key, 'Ocp-Apim-Subscription-Region': region, 'Content-Type': 'application/json' },
+        body: JSON.stringify([{ text: 'hello' }])
+      });
+      if (response.ok) { status.textContent = '✓ Connected successfully!'; status.style.color = '#16a34a'; }
+      else { const err = await response.json(); status.textContent = `✗ Error ${response.status}: ${err?.error?.message || 'Invalid credentials'}`; status.style.color = '#a8364b'; }
+    } catch (e) { status.textContent = '✗ Network error. Check endpoint.'; status.style.color = '#a8364b'; }
+  });
+
+  // ── Appearance Logic ──────────────────────────────────────
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const autoTranslateToggle = document.getElementById('autoTranslateToggle');
+  const fontSizeSlider = document.getElementById('fontSizeSlider');
+
+  // Load Appearance Prefs
+  const isDark = localStorage.getItem('atelier_dark_mode') === 'true';
+  const isAuto = localStorage.getItem('atelier_auto_translate') === 'true';
+  const savedSize = parseInt(localStorage.getItem('atelier_font_size'), 10) || 16;
+
+  if (isDark) darkModeToggle.classList.add('toggle-on');
+  if (isAuto) autoTranslateToggle.classList.add('toggle-on');
+  fontSizeSlider.value = savedSize;
+
+  // Handle immediate visual updates for appearance
+  darkModeToggle.addEventListener('click', () => {
+    darkModeToggle.classList.toggle('toggle-on');
+    const on = darkModeToggle.classList.contains('toggle-on');
+    if (on) document.documentElement.classList.add('dark');
+    else document.documentElement.classList.remove('dark');
+    localStorage.setItem('atelier_dark_mode', on);
+  });
+
+  autoTranslateToggle.addEventListener('click', () => {
+    autoTranslateToggle.classList.toggle('toggle-on');
+    const on = autoTranslateToggle.classList.contains('toggle-on');
+    localStorage.setItem('atelier_auto_translate', on);
+  });
+
+  fontSizeSlider.addEventListener('input', (e) => {
+    const val = e.target.value;
+    document.documentElement.style.fontSize = val + 'px';
+    localStorage.setItem('atelier_font_size', val);
+  });
+
+  // Save (Engine mainly, Appearance is saved instantly)
+  document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+    const engine = document.querySelector('input[name="engine"]:checked')?.value || 'google';
+    localStorage.setItem('atelier_engine', engine);
+    if (engine === 'azure') {
+      sessionStorage.setItem('atelier_azure_key',      document.getElementById('azureKey').value.trim());
+      sessionStorage.setItem('atelier_azure_region',   document.getElementById('azureRegion').value.trim());
+      sessionStorage.setItem('atelier_azure_endpoint', document.getElementById('azureEndpoint').value.trim());
+    } else {
+      sessionStorage.removeItem('atelier_azure_key');
+      sessionStorage.removeItem('atelier_azure_region');
+      sessionStorage.removeItem('atelier_azure_endpoint');
+    }
+    const toast = document.getElementById('toast');
+    toast.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+    toast.classList.add('opacity-100', 'translate-y-0');
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+      toast.classList.remove('opacity-100', 'translate-y-0');
+    }, 3000);
+  });
+
+  document.getElementById('signOutBtn')?.addEventListener('click', () => logout());
+
+  requireAuth();
+  initAuthUI();
+  document.getElementById('logoutLink')?.addEventListener('click', (e) => { e.preventDefault(); logout(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Language Management - The Linguistic Atelier</title>
+<meta name="description" content="Manage and curate your active language palette in The Linguistic Atelier."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "surface-container-low": "#f1f4f5", "on-tertiary-fixed-variant": "#64486e",
+          "surface-variant": "#dee3e6", "outline-variant": "#adb3b5", "on-secondary": "#fbf8ff",
+          "primary": "#4956b4", "primary-fixed-dim": "#7f8ced", "surface-tint": "#4956b4",
+          "secondary-fixed-dim": "#d2d2eb", "surface-container-high": "#e5e9eb",
+          "background": "#f8f9fa", "surface": "#f8f9fa", "secondary-dim": "#505266",
+          "on-primary-fixed": "#000000", "tertiary-fixed-dim": "#debbe7", "on-tertiary": "#fff7fc",
+          "primary-container": "#8c99fc", "error-dim": "#6b0221", "on-tertiary-fixed": "#462c50",
+          "tertiary-container": "#ecc8f6", "tertiary": "#71557b", "on-error": "#fff7f7",
+          "surface-container-highest": "#dee3e6", "on-secondary-container": "#4f5065",
+          "inverse-primary": "#8c99fc", "surface-container-lowest": "#ffffff",
+          "on-primary-fixed-variant": "#0e1d7f", "error": "#a8364b", "surface-bright": "#f8f9fa",
+          "on-surface": "#2d3335", "error-container": "#f97386", "on-primary": "#fbf8ff",
+          "outline": "#767c7e", "on-tertiary-container": "#5a3f64", "secondary-fixed": "#e0e0f9",
+          "secondary": "#5c5e72", "on-secondary-fixed": "#3c3e51", "on-error-container": "#6e0523",
+          "primary-fixed": "#8c99fc", "primary-dim": "#3d4aa7", "surface-dim": "#d5dbdd",
+          "secondary-container": "#e0e0f9", "tertiary-fixed": "#ecc8f6", "tertiary-dim": "#65496f",
+          "on-surface-variant": "#5a6062", "surface-container": "#ebeef0",
+          "inverse-on-surface": "#9b9d9e", "inverse-surface": "#0c0f10",
+          "on-background": "#2d3335", "on-secondary-fixed-variant": "#585a6f",
+          "on-primary-container": "#001075"
+        },
+        borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+        fontFamily: { "headline": ["Manrope"], "body": ["Inter"], "label": ["Inter"] }
+      }
+    }
+  }
+</script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="prefs.js"></script>
+</head>
+
+<body class="bg-surface text-on-surface flex min-h-screen">
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f1f4f5] flex flex-col py-8 space-y-6 z-50">
+  <div class="px-8 mb-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary">
+        <span class="material-symbols-outlined">translate</span>
+      </div>
+      <div>
+        <h2 class="font-headline font-black text-primary text-lg leading-tight">The Atelier</h2>
+        <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold opacity-60">Polyglot Workspace</p>
+      </div>
+    </div>
+  </div>
+  <div class="px-4">
+    <a href="index.html" class="w-full py-3 px-6 bg-gradient-to-r from-primary to-primary-fixed-dim text-on-primary rounded-full font-headline font-bold shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-transform active:scale-95">
+      <span class="material-symbols-outlined">add</span>
+      New Translation
+    </a>
+  </div>
+  <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+    <a href="index.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+      <span class="material-symbols-outlined">translate</span>
+      <span class="font-headline text-sm font-semibold">Translate</span>
+    </a>
+    <a href="languages.html" class="flex items-center gap-3 py-3 text-primary font-bold border-l-4 border-primary-fixed-dim pl-4 bg-surface-container-low rounded-r-lg transition-all">
+      <span class="material-symbols-outlined">language</span>
+      <span class="font-headline text-sm font-semibold">Languages</span>
+    </a>
+    <a href="history.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+      <span class="material-symbols-outlined">history</span>
+      <span class="font-headline text-sm font-semibold">History</span>
+    </a>
+    <a href="settings.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+      <span class="material-symbols-outlined">settings</span>
+      <span class="font-headline text-sm font-semibold">Settings</span>
+    </a>
+    <a href="#" id="logoutLink" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+      <span class="material-symbols-outlined">logout</span>
+      <span class="font-headline text-sm font-semibold">Logout</span>
+    </a>
+  </nav>
+  <div class="px-8 pt-6">
+    <div class="rounded-xl bg-surface-container-high p-4 flex flex-col gap-3">
+      <p class="text-xs font-semibold text-on-surface-variant">Active Workspace</p>
+      <div class="flex items-center gap-2">
+        <div class="auth-user-initials w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary text-xs font-bold">--</div>
+        <span class="auth-user-name text-xs font-bold">Loading...</span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- Main Content -->
+<main class="ml-64 flex-grow min-h-screen p-10 bg-surface max-w-6xl mx-auto">
+  <header class="mb-12">
+    <h1 class="text-4xl font-extrabold text-on-surface tracking-tight mb-2">Language Workspace</h1>
+    <p class="text-on-surface-variant font-body text-lg max-w-2xl">Curate your linguistic arsenal. Prioritize active translations and explore new dialects within the atelier.</p>
+  </header>
+
+  <div class="max-w-6xl mx-auto grid grid-cols-12 gap-10">
+    <!-- Left: Active Languages -->
+    <section class="col-span-12 lg:col-span-5 flex flex-col gap-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold font-headline flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+          Active Palette
+        </h2>
+        <span class="text-xs font-bold px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full">5 Active</span>
+      </div>
+
+      <div class="bg-surface-container-low rounded-xl p-4 space-y-3">
+        <div class="bg-surface-container-lowest p-4 rounded-lg flex items-center gap-4 relative group transition-all hover:scale-[1.02] cursor-grab">
+          <div class="w-1 h-10 bg-primary-fixed rounded-full absolute left-0"></div>
+          <span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">drag_indicator</span>
+          <div class="flex-grow">
+            <h3 class="font-bold text-on-surface">Hindi</h3>
+            <p class="text-xs text-on-surface-variant">South Asian • 600M speakers</p>
+          </div>
+          <span class="material-symbols-outlined text-outline-variant hover:text-error transition-colors cursor-pointer">close</span>
+        </div>
+        <div class="bg-surface-container-lowest p-4 rounded-lg flex items-center gap-4 relative group transition-all hover:scale-[1.02] cursor-grab">
+          <span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">drag_indicator</span>
+          <div class="flex-grow">
+            <h3 class="font-bold text-on-surface">Spanish</h3>
+            <p class="text-xs text-on-surface-variant">Global Dialect • 500M speakers</p>
+          </div>
+          <span class="material-symbols-outlined text-outline-variant hover:text-error transition-colors cursor-pointer">close</span>
+        </div>
+        <div class="bg-surface-container-lowest p-4 rounded-lg flex items-center gap-4 relative group transition-all hover:scale-[1.02] cursor-grab">
+          <span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">drag_indicator</span>
+          <div class="flex-grow">
+            <h3 class="font-bold text-on-surface">French (Standard)</h3>
+            <p class="text-xs text-on-surface-variant">High Precision • 300M speakers</p>
+          </div>
+          <span class="material-symbols-outlined text-outline-variant hover:text-error transition-colors cursor-pointer">close</span>
+        </div>
+        <div class="bg-surface-container-lowest p-4 rounded-lg flex items-center gap-4 relative group transition-all hover:scale-[1.02] cursor-grab">
+          <span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">drag_indicator</span>
+          <div class="flex-grow">
+            <h3 class="font-bold text-on-surface">German (Business)</h3>
+            <p class="text-xs text-on-surface-variant">Technical Pack • 130M speakers</p>
+          </div>
+          <span class="material-symbols-outlined text-outline-variant hover:text-error transition-colors cursor-pointer">close</span>
+        </div>
+        <div class="bg-surface-container-lowest p-4 rounded-lg flex items-center gap-4 relative group transition-all hover:scale-[1.02] cursor-grab">
+          <span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">drag_indicator</span>
+          <div class="flex-grow">
+            <h3 class="font-bold text-on-surface">Japanese (JLPT N1)</h3>
+            <p class="text-xs text-on-surface-variant">Contextual Engine • 126M speakers</p>
+          </div>
+          <span class="material-symbols-outlined text-outline-variant hover:text-error transition-colors cursor-pointer">close</span>
+        </div>
+      </div>
+
+      <div class="bg-tertiary-container/30 p-6 rounded-xl border border-tertiary-fixed-dim/20">
+        <div class="flex items-start gap-4">
+          <span class="material-symbols-outlined text-tertiary">info</span>
+          <div>
+            <p class="text-sm font-semibold text-on-tertiary-container">Smart Suggestions</p>
+            <p class="text-xs text-on-tertiary-container/80 mt-1">These 5 languages cover 3.5 billion speakers. You're reaching 44% of the world's population simultaneously.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: Gallery & Discovery -->
+    <section class="col-span-12 lg:col-span-7 flex flex-col gap-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <h2 class="text-xl font-bold font-headline">The Language Gallery</h2>
+        <div class="relative flex-grow max-w-xs">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+          <input class="w-full pl-10 pr-4 py-2 bg-surface-container-high border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest text-sm transition-all outline-none" placeholder="Search 130+ languages..." type="text"/>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
+          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">IT</div>
+          <div><p class="font-bold text-sm">Italian</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Modern Romance</p></div>
+          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
+        </div>
+        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
+          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">KO</div>
+          <div><p class="font-bold text-sm">Korean</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">East Asian</p></div>
+          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
+        </div>
+        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
+          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">AR</div>
+          <div><p class="font-bold text-sm">Arabic</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Semitic</p></div>
+          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
+        </div>
+
+        <!-- Large Card -->
+        <div class="col-span-2 relative overflow-hidden rounded-xl h-40 group cursor-pointer bg-gradient-to-br from-primary to-tertiary">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+          <div class="absolute bottom-4 left-4 text-white">
+            <p class="text-[10px] uppercase font-bold tracking-widest opacity-80">Collection</p>
+            <p class="text-xl font-bold font-headline">Mediterranean Bundle</p>
+            <p class="text-xs opacity-90">Spanish, Italian, Greek, Portuguese</p>
+          </div>
+          <button class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-white hover:text-primary transition-all">
+            <span class="material-symbols-outlined">auto_awesome</span>
+          </button>
+        </div>
+
+        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
+          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">ZH</div>
+          <div><p class="font-bold text-sm">Mandarin</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Sinitic</p></div>
+          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
+        </div>
+        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
+          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">PT</div>
+          <div><p class="font-bold text-sm">Portuguese</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Ibero-Romance</p></div>
+          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
+        </div>
+        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
+          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">RU</div>
+          <div><p class="font-bold text-sm">Russian</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Slavic</p></div>
+          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
+        </div>
+        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
+          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">NL</div>
+          <div><p class="font-bold text-sm">Dutch</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">West Germanic</p></div>
+          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
+        </div>
+      </div>
+
+      <div class="flex justify-center mt-6">
+        <button class="px-8 py-3 bg-surface-container-low hover:bg-surface-container-high text-on-surface font-bold text-sm rounded-full transition-all flex items-center gap-2">
+          View All Languages
+          <span class="material-symbols-outlined text-sm">expand_more</span>
+        </button>
+      </div>
+    </section>
+  </div>
+</main>
+
+<a href="index.html" class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform z-50" title="Go to Workbench">
+  <span class="material-symbols-outlined">translate</span>
+</a>
+<script src="auth.js"></script>
+<script>
+  requireAuth();
+  initAuthUI();
+  document.getElementById('logoutLink')?.addEventListener('click', (e) => { e.preventDefault(); logout(); });
+</script>
+</body>
+</html>

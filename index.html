@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>The Linguistic Atelier | Polyglot Workspace</title>
+    <meta name="description"
+        content="Translate your text into 5 languages simultaneously with The Linguistic Atelier." />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#f1f4f5",
+                        "on-tertiary-fixed-variant": "#64486e",
+                        "surface-variant": "#dee3e6",
+                        "outline-variant": "#adb3b5",
+                        "on-secondary": "#fbf8ff",
+                        "primary": "#4956b4",
+                        "primary-fixed-dim": "#7f8ced",
+                        "surface-tint": "#4956b4",
+                        "secondary-fixed-dim": "#d2d2eb",
+                        "surface-container-high": "#e5e9eb",
+                        "background": "#f8f9fa",
+                        "surface": "#f8f9fa",
+                        "secondary-dim": "#505266",
+                        "on-primary-fixed": "#000000",
+                        "tertiary-fixed-dim": "#debbe7",
+                        "on-tertiary": "#fff7fc",
+                        "primary-container": "#8c99fc",
+                        "error-dim": "#6b0221",
+                        "on-tertiary-fixed": "#462c50",
+                        "tertiary-container": "#ecc8f6",
+                        "tertiary": "#71557b",
+                        "on-error": "#fff7f7",
+                        "surface-container-highest": "#dee3e6",
+                        "on-secondary-container": "#4f5065",
+                        "inverse-primary": "#8c99fc",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#0e1d7f",
+                        "error": "#a8364b",
+                        "surface-bright": "#f8f9fa",
+                        "on-surface": "#2d3335",
+                        "error-container": "#f97386",
+                        "on-primary": "#fbf8ff",
+                        "outline": "#767c7e",
+                        "on-tertiary-container": "#5a3f64",
+                        "secondary-fixed": "#e0e0f9",
+                        "secondary": "#5c5e72",
+                        "on-secondary-fixed": "#3c3e51",
+                        "on-error-container": "#6e0523",
+                        "primary-fixed": "#8c99fc",
+                        "primary-dim": "#3d4aa7",
+                        "surface-dim": "#d5dbdd",
+                        "secondary-container": "#e0e0f9",
+                        "tertiary-fixed": "#ecc8f6",
+                        "tertiary-dim": "#65496f",
+                        "on-surface-variant": "#5a6062",
+                        "surface-container": "#ebeef0",
+                        "inverse-on-surface": "#9b9d9e",
+                        "inverse-surface": "#0c0f10",
+                        "on-background": "#2d3335",
+                        "on-secondary-fixed-variant": "#585a6f",
+                        "on-primary-container": "#001075"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"], "body": ["Inter"], "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="prefs.js"></script>
+</head>
+
+<body class="bg-surface text-on-surface min-h-screen">
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- SideNavBar -->
+    <aside class="h-screen w-64 fixed left-0 top-0 bg-[#f1f4f5] flex flex-col py-8 space-y-6 z-50">
+        <div class="px-8 mb-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary">
+                    <span class="material-symbols-outlined">translate</span>
+                </div>
+                <div>
+                    <h2 class="font-headline font-black text-primary text-lg leading-tight">The Atelier</h2>
+                    <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold opacity-60">
+                        Polyglot Workspace</p>
+                </div>
+            </div>
+        </div>
+        <div class="px-4">
+            <button id="newTranslationBtn"
+                class="w-full py-3 px-6 bg-gradient-to-r from-primary to-primary-fixed-dim text-on-primary rounded-full font-headline font-bold shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-transform active:scale-95">
+                <span class="material-symbols-outlined">add</span>
+                New Translation
+            </button>
+        </div>
+        <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+            <a href="index.html"
+                class="flex items-center gap-3 py-3 text-primary font-bold border-l-4 border-primary-fixed-dim pl-4 bg-surface-container-low rounded-r-lg transition-all">
+                <span class="material-symbols-outlined">translate</span>
+                <span class="font-headline text-sm font-semibold">Translate</span>
+            </a>
+            <a href="languages.html"
+                class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+                <span class="material-symbols-outlined">language</span>
+                <span class="font-headline text-sm font-semibold">Languages</span>
+            </a>
+            <a href="history.html"
+                class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+                <span class="material-symbols-outlined">history</span>
+                <span class="font-headline text-sm font-semibold">History</span>
+            </a>
+            <a href="settings.html"
+                class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+                <span class="material-symbols-outlined">settings</span>
+                <span class="font-headline text-sm font-semibold">Settings</span>
+            </a>
+            <a href="#" id="logoutLink"
+                class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="font-headline text-sm font-semibold">Logout</span>
+            </a>
+        </nav>
+        <div class="px-8 pt-6">
+            <div class="rounded-xl bg-surface-container-high p-4 flex flex-col gap-3">
+                <p class="text-xs font-semibold text-on-surface-variant">Active Workspace</p>
+                <div class="flex items-center gap-2">
+                    <div
+                        class="auth-user-initials w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary text-xs font-bold">
+                        --</div>
+                    <span class="auth-user-name text-xs font-bold">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 p-12 max-w-6xl mx-auto">
+
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-12">
+            <div>
+                <h1 class="text-4xl font-headline font-extrabold tracking-tight text-on-surface mb-2">Workbench</h1>
+                <p class="text-on-surface-variant font-medium">Draft your message and see it travel the world.</p>
+            </div>
+            <div class="flex gap-4 items-center">
+                <div class="flex -space-x-3">
+                    <div
+                        class="auth-user-initials w-10 h-10 rounded-full border-4 border-surface bg-primary flex items-center justify-center text-on-primary text-xs font-bold">
+                        --</div>
+                </div>
+                <div class="h-10 w-px bg-outline-variant opacity-20 mx-2"></div>
+                <button
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Input Section -->
+        <section class="mb-12">
+            <div class="bg-surface-container-low rounded-[2rem] p-8 shadow-sm">
+                <div class="flex items-center gap-4 mb-6 flex-wrap">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div class="flex items-center gap-2">
+                            <span
+                                class="px-4 py-1.5 bg-primary text-on-primary rounded-full text-xs font-bold tracking-wide uppercase">Source:</span>
+                            <select id="sourceLang"
+                                class="bg-surface-container-high text-on-surface border-none rounded-full px-4 py-1.5 text-xs font-bold focus:ring-2 focus:ring-primary/20 outline-none cursor-pointer">
+                                <option value="auto">Auto Detect</option>
+                                <option value="en" selected>English</option>
+                                <option value="es">Spanish</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                                <option value="hi">Hindi</option>
+                                <option value="ja">Japanese</option>
+                                <option value="pt">Portuguese</option>
+                                <option value="ru">Russian</option>
+                                <option value="zh-CN">Chinese</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span
+                                class="px-4 py-1.5 bg-secondary-dim text-on-secondary rounded-full text-xs font-bold tracking-wide uppercase">Engine:</span>
+                            <select id="engineSelect"
+                                class="bg-surface-container-high text-on-surface border-none rounded-full px-4 py-1.5 text-xs font-bold focus:ring-2 focus:ring-primary/20 outline-none cursor-pointer">
+                                <option value="google">Google Translate (Free)</option>
+                                <option value="azure">Azure Translator API</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 text-on-surface-variant opacity-60">
+                        <span class="material-symbols-outlined text-sm">auto_awesome</span>
+                        <span class="text-xs font-semibold">5-Language Simultaneous</span>
+                    </div>
+                    <div id="engineStatus"
+                        class="hidden mt-4 rounded-2xl border border-primary/10 bg-primary/5 px-4 py-3 text-sm text-primary flex items-center gap-2">
+                        <span class="material-symbols-outlined">info</span>
+                        <span id="engineStatusText">Engine info will appear here.</span>
+                    </div>
+                    <div id="wordCount" class="ml-auto text-xs text-on-surface-variant font-medium">0 words</div>
+                </div>
+                <div class="relative">
+                    <textarea id="inputText"
+                        class="w-full h-48 bg-surface-container-lowest text-on-surface text-xl font-body p-8 rounded-2xl border-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline-variant/40 resize-none outline-none"
+                        placeholder="Type your message here to begin the atelier's process..."></textarea>
+                    <div class="absolute bottom-6 left-6 flex items-center gap-3">
+                        <button id="copyAllBtn"
+                            class="px-4 py-3 bg-surface-container-low text-on-surface rounded-full font-bold transition-colors hover:bg-surface-container-highest"
+                            title="Copy all translations">
+                            Copy All
+                        </button>
+                        <button id="resetResultsBtn"
+                            class="px-4 py-3 bg-surface-container-low text-on-surface rounded-full font-bold transition-colors hover:bg-surface-container-highest"
+                            title="Reset results">
+                            Reset
+                        </button>
+                    </div>
+                    <div class="absolute bottom-6 right-6 flex items-center gap-3">
+                        <button id="clearBtn"
+                            class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-highest transition-colors"
+                            title="Clear text">
+                            <span class="material-symbols-outlined">delete_sweep</span>
+                        </button>
+                        <button id="translateBtn"
+                            class="px-8 py-3 bg-primary text-on-primary rounded-full font-bold transition-transform active:scale-95 shadow-lg shadow-primary/20 flex items-center gap-2">
+                            <span id="translateBtnText">Translate All</span>
+                            <span id="translateBtnIcon" class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Card 1: Hindi -->
+            <div class="bg-surface-container-lowest rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between group"
+                id="card-hi">
+                <div class="absolute top-0 left-0 w-1 h-full bg-primary-fixed"></div>
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none">
+                            <option value="hi">Hindi</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ru">Russian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="zh-CN">Chinese</option>
+                        </select>
+                        <div id="indicator-hi" class="h-1.5 w-1.5 rounded-full bg-primary opacity-20 transition-all">
+                        </div>
+                    </div>
+                    <p id="result-hi"
+                        class="text-xl font-body leading-relaxed text-on-surface text-outline-variant/40 italic">
+                        Awaiting translation...</p>
+                </div>
+                <div class="mt-8 flex justify-between items-center">
+                    <div class="flex gap-2">
+                        <button
+                            class="copy-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
+                            data-target="result-hi" title="Copy">
+                            <span class="material-symbols-outlined text-lg">content_copy</span>
+                        </button>
+                        <button
+                            class="tts-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
+                            data-target="result-hi" data-lang="hi" title="Listen">
+                            <span class="material-symbols-outlined text-lg">volume_up</span>
+                        </button>
+                        <button
+                            class="share-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
+                            data-target="result-hi" data-label="Hindi" title="Share">
+                            <span class="material-symbols-outlined text-lg">share</span>
+                        </button>
+                    </div>
+                    <span class="text-[10px] font-bold text-on-surface-variant/40">TRANSLATE API</span>
+                </div>
+            </div>
+
+            <!-- Card 2: Spanish -->
+            <div class="bg-surface-container-lowest rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between group"
+                id="card-es">
+                <div class="absolute top-0 left-0 w-1 h-full bg-primary-fixed"></div>
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none">
+                            <option value="hi">Hindi</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ru">Russian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="zh-CN">Chinese</option>
+                        </select>
+                        <div id="indicator-es" class="h-1.5 w-1.5 rounded-full bg-primary opacity-20 transition-all">
+                        </div>
+                    </div>
+                    <p id="result-es"
+                        class="text-xl font-body leading-relaxed text-on-surface text-outline-variant/40 italic">
+                        Awaiting translation...</p>
+                </div>
+                <div class="mt-8 flex justify-between items-center">
+                    <div class="flex gap-2">
+                        <button
+                            class="copy-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
+                            data-target="result-es" title="Copy">
+                            <span class="material-symbols-outlined text-lg">content_copy</span>
+                        </button>
+                        <button
+                            class="tts-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
+                            data-target="result-es" data-lang="es" title="Listen">
+                            <span class="material-symbols-outlined text-lg">volume_up</span>
+                        </button>
+                        <button
+                            class="share-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
+                            data-target="result-es" data-label="Spanish" title="Share">
+                            <span class="material-symbols-outlined text-lg">share</span>
+                        </button>
+                    </div>
+                    <span class="text-[10px] font-bold text-on-surface-variant/40">NATIVE FLUIDITY</span>
+                </div>
+            </div>
+
+            <!-- Card 3: French (Glass Variant — spans 2 rows) -->
+            <div class="glass-effect rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between lg:row-span-2"
+                id="card-fr">
+                <div class="absolute top-0 left-0 w-1 h-full bg-tertiary"></div>
+                <div>
+                    <div class="flex justify-between items-center mb-6">
+                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none">
+                            <option value="hi">Hindi</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ru">Russian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="zh-CN">Chinese</option>
+                        </select>
+                        <span id="indicator-fr"
+                            class="material-symbols-outlined text-outline-variant/40 transition-all">auto_fix_high</span>
+                    </div>
+                    <p id="result-fr"
+                        class="text-2xl font-body leading-loose text-on-surface italic text-outline-variant/40">Awaiting
+                        translation...</p>
+                </div>
+                <div>
+                    <div class="mb-6">
+                        <div class="h-1 w-full bg-outline-variant/10 rounded-full overflow-hidden">
+                            <div id="accuracy-bar" class="h-full bg-primary rounded-full transition-all duration-1000"
+                                style="width:0%"></div>
+                        </div>
+                        <p class="text-[10px] mt-2 font-bold text-primary" id="accuracy-label">Contextual Accuracy: —
+                        </p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button
+                            class="copy-btn p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant transition-colors"
+                            data-target="result-fr" title="Copy">
+                            <span class="material-symbols-outlined text-lg">content_copy</span>
+                        </button>
+                        <button
+                            class="tts-btn p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant transition-colors"
+                            data-target="result-fr" data-lang="fr" title="Listen">
+                            <span class="material-symbols-outlined text-lg">volume_up</span>
+                        </button>
+                        <button
+                            class="share-btn p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant transition-colors"
+                            data-target="result-fr" data-label="French" title="Share">
+                            <span class="material-symbols-outlined text-lg">share</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: German -->
+            <div class="bg-surface-container-lowest rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between group"
+                id="card-de">
+                <div class="absolute top-0 left-0 w-1 h-full bg-primary-fixed"></div>
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none">
+                            <option value="hi">Hindi</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ru">Russian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="zh-CN">Chinese</option>
+                        </select>
+                        <div id="indicator-de" class="h-1.5 w-1.5 rounded-full bg-primary opacity-20 transition-all">
+                        </div>
+                    </div>
+                    <p id="result-de"
+                        class="text-xl font-body leading-relaxed text-on-surface text-outline-variant/40 italic">
+                        Awaiting translation...</p>
+                </div>
+                <div class="mt-8 flex justify-between items-center">
+                    <div class="flex gap-2">
+                        <button
+                            class="copy-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
+                            data-target="result-de" title="Copy">
+                            <span class="material-symbols-outlined text-lg">content_copy</span>
+                        </button>
+                        <button
+                            class="tts-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
+                            data-target="result-de" data-lang="de" title="Listen">
+                            <span class="material-symbols-outlined text-lg">volume_up</span>
+                        </button>
+                        <button
+                            class="share-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
+                            data-target="result-de" data-label="German" title="Share">
+                            <span class="material-symbols-outlined text-lg">share</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Japanese -->
+            <div class="bg-surface-container-lowest rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between group"
+                id="card-ja">
+                <div class="absolute top-0 left-0 w-1 h-full bg-primary-fixed"></div>
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none">
+                            <option value="hi">Hindi</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ru">Russian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="zh-CN">Chinese</option>
+                        </select>
+                        <div id="indicator-ja" class="h-1.5 w-1.5 rounded-full bg-primary opacity-20 transition-all">
+                        </div>
+                    </div>
+                    <p id="result-ja"
+                        class="text-xl font-body leading-relaxed text-on-surface text-outline-variant/40 italic">
+                        Awaiting translation...</p>
+                </div>
+                <div class="mt-8 flex justify-between items-center">
+                    <div class="flex gap-2">
+                        <button
+                            class="copy-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
+                            data-target="result-ja" title="Copy">
+                            <span class="material-symbols-outlined text-lg">content_copy</span>
+                        </button>
+                        <button
+                            class="tts-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
+                            data-target="result-ja" data-lang="ja" title="Listen">
+                            <span class="material-symbols-outlined text-lg">volume_up</span>
+                        </button>
+                        <button
+                            class="share-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
+                            data-target="result-ja" data-label="Japanese" title="Share">
+                            <span class="material-symbols-outlined text-lg">share</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Footer Stats -->
+        <footer class="mt-16 pt-8 border-t border-outline-variant/10 flex flex-col md:flex-row gap-12 items-start">
+            <div class="max-w-xs">
+                <h4 class="font-bold text-sm text-on-surface-variant mb-4">Translation Ecosystem</h4>
+                <div class="flex flex-wrap gap-2">
+                    <span
+                        class="px-3 py-1 rounded-full bg-tertiary-container text-on-tertiary-container text-[10px] font-bold uppercase">Semantic
+                        Engine</span>
+                    <span
+                        class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase">Free
+                        API</span>
+                    <span
+                        class="px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant text-[10px] font-bold uppercase">Atelier
+                        V.2</span>
+                </div>
+            </div>
+            <div class="flex-1 grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <p class="text-[10px] font-bold text-on-surface-variant uppercase opacity-40 mb-1">Words Processed
+                    </p>
+                    <p id="stat-words" class="text-xl font-headline font-black text-on-surface">0</p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-on-surface-variant uppercase opacity-40 mb-1">Languages</p>
+                    <p class="text-xl font-headline font-black text-primary">5</p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-on-surface-variant uppercase opacity-40 mb-1">Session
+                        Translations</p>
+                    <p id="stat-translations" class="text-xl font-headline font-black text-on-surface">0</p>
+                </div>
+                <div class="flex items-end justify-end">
+                    <div class="w-full bg-surface-container rounded-lg p-3 flex items-center justify-between">
+                        <span class="text-xs font-bold text-on-surface-variant">Status</span>
+                        <span id="stat-status"
+                            class="material-symbols-outlined text-sm text-outline-variant">cloud_off</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Floating AI Button -->
+    <div class="fixed bottom-8 right-8 z-40">
+        <button
+            class="w-14 h-14 bg-tertiary text-on-tertiary rounded-full flex items-center justify-center shadow-xl shadow-tertiary/20 hover:scale-105 transition-transform"
+            title="Auto-translate">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_fix_high</span>
+        </button>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast"
+        class="fixed bottom-8 left-1/2 -translate-x-1/2 translate-y-24 opacity-0 z-50 flex items-center gap-3 bg-on-surface text-surface px-6 py-3 rounded-full shadow-2xl transition-all duration-500 pointer-events-none">
+        <span class="material-symbols-outlined text-primary-container text-sm"
+            style="font-variation-settings: 'FILL' 1;" id="toast-icon">check_circle</span>
+        <span id="toast-message" class="text-sm font-bold">Copied to clipboard!</span>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        requireAuth();
+        initAuthUI();
+        document.getElementById('logoutLink')?.addEventListener('click', (e) => { e.preventDefault(); logout(); });
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
