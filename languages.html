@@ -187,7 +187,7 @@
         <span class="material-symbols-outlined text-outline-variant transition-colors select-none">drag_indicator</span>
         <div class="flex-grow">
           <h3 class="font-bold text-on-surface">${lang.label}</h3>
-          <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">${lang.lang}</p>
+          <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">${lang.label === 'Select Language' ? '' : lang.lang}</p>
         </div>
         <span class="material-symbols-outlined text-outline-variant hover:text-error transition-colors cursor-pointer" onclick="removeFromPalette('${lang.lang}')">close</span>
       </div>
