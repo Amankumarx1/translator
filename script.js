@@ -26,13 +26,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const toastIcon = document.getElementById('toast-icon');
 
   // Translation targets: { id suffix, lang code, label }
-  const targets = [
-    { id: 'hi', lang: 'hi', label: 'Hindi' },
-    { id: 'es', lang: 'es', label: 'Spanish' },
-    { id: 'fr', lang: 'fr', label: 'French' },
-    { id: 'de', lang: 'de', label: 'German' },
-    { id: 'ja', lang: 'ja', label: 'Japanese' },
+  // Translation targets loaded from global palette
+  const targets = typeof getActivePalette === 'function' ? getActivePalette() : [
+    { id: '1', lang: 'hi', label: 'Hindi' },
+    { id: '2', lang: 'es', label: 'Spanish' },
+    { id: '3', lang: 'fr', label: 'French' },
+    { id: '4', lang: 'de', label: 'German' },
+    { id: '5', lang: 'ja', label: 'Japanese' },
   ];
+
 
   // ─── Initialize Languages ──────────────────────────────────
   function initLanguageSelects() {
@@ -55,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Populate all Target Card Select dropdowns
     document.querySelectorAll('.lang-select').forEach((select, idx) => {
+      const slotId = (idx + 1).toString();
       select.innerHTML = '';
       SUPPORTED_LANGUAGES.forEach(lang => {
         const opt = document.createElement('option');
@@ -63,11 +66,27 @@ document.addEventListener('DOMContentLoaded', () => {
         select.appendChild(opt);
       });
       // Set initial values based on targets array
-      if (targets[idx]) {
-        select.value = targets[idx].lang;
+      const target = targets.find(t => t.id === slotId);
+      if (target) {
+        select.value = target.lang;
       }
+
+      // Add change listener to update global palette
+      select.addEventListener('change', () => {
+        const newLangCode = select.value;
+        const newLangName = select.options[select.selectedIndex].text;
+        const currentPalette = typeof getActivePalette === 'function' ? getActivePalette() : targets;
+        const targetIdx = currentPalette.findIndex(t => t.id === slotId);
+        if (targetIdx !== -1) {
+          currentPalette[targetIdx].lang = newLangCode;
+          currentPalette[targetIdx].label = newLangName;
+          if (typeof setActivePalette === 'function') setActivePalette(currentPalette);
+          showToast(`Slot ${slotId} changed to ${newLangName}`, 'language', 'success');
+        }
+      });
     });
   }
+
 
   initLanguageSelects();
 
@@ -107,12 +126,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       const indicator = document.getElementById(`indicator-${t.id}`);
       if (indicator) {
-        if (t.id === 'fr') {
+        if (t.id === '3') { // Card 3 is the special French/Glass slot
           indicator.className = 'material-symbols-outlined text-outline-variant/40 transition-all';
+          indicator.textContent = 'auto_fix_high';
         } else {
           indicator.className = 'h-1.5 w-1.5 rounded-full bg-primary opacity-20 transition-all';
         }
       }
+
     });
     // Reset French extras
     const bar = document.getElementById('accuracy-bar');
@@ -255,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
       el.textContent = 'Translating...';
       el.classList.add('skeleton');
       if (indicator) {
-        if (id === 'fr') {
+        if (id === '3') { // Special Card 3
           indicator.className = 'material-symbols-outlined text-primary animate-spin transition-all';
           indicator.textContent = 'progress_activity';
         } else {
@@ -263,6 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
           indicator.style.opacity = '1';
         }
       }
+
     } else {
       el.classList.remove('skeleton');
     }
@@ -280,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!indicator) return;
 
     if (isError) {
-      if (id === 'fr') {
+      if (id === '3') { // Special Card 3
         indicator.className = 'material-symbols-outlined text-error transition-all';
         indicator.textContent = 'error_outline';
       } else {
@@ -288,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
         indicator.style.opacity = '1';
       }
     } else {
-      if (id === 'fr') {
+      if (id === '3') { // Special Card 3
         indicator.className = 'material-symbols-outlined text-primary transition-all';
         indicator.textContent = 'auto_fix_high';
         // Animate accuracy bar
@@ -302,6 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         indicator.style.opacity = '1';
       }
     }
+
   }
 
   async function translateAll() {
@@ -355,13 +378,14 @@ document.addEventListener('DOMContentLoaded', () => {
         setResult(t.id, `Failed: ${err.message}`, true);
         if (document.getElementById(`indicator-${t.id}`)) {
           const ind = document.getElementById(`indicator-${t.id}`);
-          if (t.id === 'fr') {
+          if (t.id === '3') {
             ind.className = 'material-symbols-outlined text-error';
             ind.textContent = 'error_outline';
           } else {
             ind.className = 'h-1.5 w-1.5 rounded-full bg-error opacity-100';
           }
         }
+
       }
     });
 
@@ -369,9 +393,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Store session
     const savedResultMap = {};
-    targets.forEach(t => {
+    const historyResultMap = {};
+    targets.forEach((t, index) => {
       const el = document.getElementById(`result-${t.id}`);
-      if (el) savedResultMap[t.id] = el.textContent.trim();
+      if (el) {
+        const text = el.textContent.trim();
+        savedResultMap[t.id] = text;
+        const currentLang = selectedLangs[index];
+        historyResultMap[currentLang] = text;
+      }
     });
     localStorage.setItem('atelier_last_input', query);
     localStorage.setItem('atelier_last_results', JSON.stringify(savedResultMap));
@@ -379,10 +409,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add to history
     const historyEntry = {
       input: query,
-      results: savedResultMap,
+      results: historyResultMap,
       timestamp: new Date().toISOString(),
       engine: selectedEngine
     };
+
 
     // Server sync removed (Local Only Mode)
 
@@ -501,17 +532,27 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.tts-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const targetId = btn.dataset.target;
-      const lang = btn.dataset.lang;
+      const slotId = btn.dataset.slot;
       const el = document.getElementById(targetId);
       if (!el) return;
       const text = el.textContent.trim();
-      if (!text || text === 'Awaiting translation...' || text.startsWith('Failed')) return;
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = langVoiceMap[lang] || 'en-US';
-      utterance.rate = 0.9;
-      window.speechSynthesis.speak(utterance);
-      showToast(`Speaking ${lang.toUpperCase()}...`, 'volume_up', 'info');
+      if (!text || text === 'Awaiting translation...' || text.startsWith('Failed to translate')) return;
+      
+      // Get lang code for this slot
+      const targets = getActivePalette();
+      const target = targets.find(t => t.id === slotId);
+      const lang = target ? target.lang : 'en';
+
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = langVoiceMap[lang] || lang;
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+        showToast(`Speaking in ${target?.label || lang}...`, 'volume_up', 'success');
+      } else {
+        showToast('TTS not supported', 'error', 'error');
+      }
     });
   });
 

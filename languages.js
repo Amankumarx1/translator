@@ -109,3 +109,26 @@ const SUPPORTED_LANGUAGES = [
     { name: 'Yoruba', code: 'yo' },
     { name: 'Zulu', code: 'zu' }
 ];
+
+function getActivePalette() {
+  const raw = localStorage.getItem('atelier_active_palette');
+  const defaults = [
+    { id: '1', lang: 'hi', label: 'Hindi' },
+    { id: '2', lang: 'es', label: 'Spanish' },
+    { id: '3', lang: 'fr', label: 'French' },
+    { id: '4', lang: 'de', label: 'German' },
+    { id: '5', lang: 'ja', label: 'Japanese' }
+  ];
+  if (!raw) return defaults;
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : defaults;
+  } catch (e) {
+    return defaults;
+  }
+}
+
+function setActivePalette(palette) {
+  localStorage.setItem('atelier_active_palette', JSON.stringify(palette));
+}
+

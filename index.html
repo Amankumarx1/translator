@@ -256,26 +256,19 @@
         <!-- Results Grid -->
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            <!-- Card 1: Hindi -->
+            <!-- Card 1 -->
             <div class="bg-surface-container-lowest rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between group"
-                id="card-hi">
+                id="card-1">
                 <div class="absolute top-0 left-0 w-1 h-full bg-primary-fixed"></div>
                 <div>
                     <div class="flex justify-between items-center mb-4">
-                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none">
-                            <option value="hi">Hindi</option>
-                            <option value="es">Spanish</option>
-                            <option value="fr">French</option>
-                            <option value="de">German</option>
-                            <option value="ja">Japanese</option>
-                            <option value="ru">Russian</option>
-                            <option value="pt">Portuguese</option>
-                            <option value="zh-CN">Chinese</option>
+                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none" id="select-1">
+                            <!-- Populated dynamically -->
                         </select>
-                        <div id="indicator-hi" class="h-1.5 w-1.5 rounded-full bg-primary opacity-20 transition-all">
+                        <div id="indicator-1" class="h-1.5 w-1.5 rounded-full bg-primary opacity-20 transition-all">
                         </div>
                     </div>
-                    <p id="result-hi"
+                    <p id="result-1"
                         class="text-xl font-body leading-relaxed text-on-surface text-outline-variant/40 italic">
                         Awaiting translation...</p>
                 </div>
@@ -283,44 +276,36 @@
                     <div class="flex gap-2">
                         <button
                             class="copy-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
-                            data-target="result-hi" title="Copy">
+                            data-target="result-1" title="Copy">
                             <span class="material-symbols-outlined text-lg">content_copy</span>
                         </button>
                         <button
                             class="tts-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
-                            data-target="result-hi" data-lang="hi" title="Listen">
+                            data-target="result-1" data-slot="1" title="Listen">
                             <span class="material-symbols-outlined text-lg">volume_up</span>
                         </button>
                         <button
                             class="share-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
-                            data-target="result-hi" data-label="Hindi" title="Share">
+                            data-target="result-1" data-slot="1" title="Share">
                             <span class="material-symbols-outlined text-lg">share</span>
                         </button>
                     </div>
-                    <span class="text-[10px] font-bold text-on-surface-variant/40">TRANSLATE API</span>
                 </div>
             </div>
 
-            <!-- Card 2: Spanish -->
+            <!-- Card 2 -->
             <div class="bg-surface-container-lowest rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between group"
-                id="card-es">
+                id="card-2">
                 <div class="absolute top-0 left-0 w-1 h-full bg-primary-fixed"></div>
                 <div>
                     <div class="flex justify-between items-center mb-4">
-                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none">
-                            <option value="hi">Hindi</option>
-                            <option value="es">Spanish</option>
-                            <option value="fr">French</option>
-                            <option value="de">German</option>
-                            <option value="ja">Japanese</option>
-                            <option value="ru">Russian</option>
-                            <option value="pt">Portuguese</option>
-                            <option value="zh-CN">Chinese</option>
+                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none" id="select-2">
+                            <!-- Populated dynamically -->
                         </select>
-                        <div id="indicator-es" class="h-1.5 w-1.5 rounded-full bg-primary opacity-20 transition-all">
+                        <div id="indicator-2" class="h-1.5 w-1.5 rounded-full bg-primary opacity-20 transition-all">
                         </div>
                     </div>
-                    <p id="result-es"
+                    <p id="result-2"
                         class="text-xl font-body leading-relaxed text-on-surface text-outline-variant/40 italic">
                         Awaiting translation...</p>
                 </div>
@@ -328,44 +313,36 @@
                     <div class="flex gap-2">
                         <button
                             class="copy-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
-                            data-target="result-es" title="Copy">
+                            data-target="result-2" title="Copy">
                             <span class="material-symbols-outlined text-lg">content_copy</span>
                         </button>
                         <button
                             class="tts-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
-                            data-target="result-es" data-lang="es" title="Listen">
+                            data-target="result-2" data-slot="2" title="Listen">
                             <span class="material-symbols-outlined text-lg">volume_up</span>
                         </button>
                         <button
                             class="share-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
-                            data-target="result-es" data-label="Spanish" title="Share">
+                            data-target="result-2" data-slot="2" title="Share">
                             <span class="material-symbols-outlined text-lg">share</span>
                         </button>
                     </div>
-                    <span class="text-[10px] font-bold text-on-surface-variant/40">NATIVE FLUIDITY</span>
                 </div>
             </div>
 
-            <!-- Card 3: French (Glass Variant — spans 2 rows) -->
+            <!-- Card 3 (Featured/Glass Slot) -->
             <div class="glass-effect rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between lg:row-span-2"
-                id="card-fr">
+                id="card-3">
                 <div class="absolute top-0 left-0 w-1 h-full bg-tertiary"></div>
                 <div>
                     <div class="flex justify-between items-center mb-6">
-                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none">
-                            <option value="hi">Hindi</option>
-                            <option value="es">Spanish</option>
-                            <option value="fr">French</option>
-                            <option value="de">German</option>
-                            <option value="ja">Japanese</option>
-                            <option value="ru">Russian</option>
-                            <option value="pt">Portuguese</option>
-                            <option value="zh-CN">Chinese</option>
+                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none" id="select-3">
+                            <!-- Populated dynamically -->
                         </select>
-                        <span id="indicator-fr"
+                        <span id="indicator-3"
                             class="material-symbols-outlined text-outline-variant/40 transition-all">auto_fix_high</span>
                     </div>
-                    <p id="result-fr"
+                    <p id="result-3"
                         class="text-2xl font-body leading-loose text-on-surface italic text-outline-variant/40">Awaiting
                         translation...</p>
                 </div>
@@ -381,43 +358,36 @@
                     <div class="flex gap-2">
                         <button
                             class="copy-btn p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant transition-colors"
-                            data-target="result-fr" title="Copy">
+                            data-target="result-3" title="Copy">
                             <span class="material-symbols-outlined text-lg">content_copy</span>
                         </button>
                         <button
                             class="tts-btn p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant transition-colors"
-                            data-target="result-fr" data-lang="fr" title="Listen">
+                            data-target="result-3" data-slot="3" title="Listen">
                             <span class="material-symbols-outlined text-lg">volume_up</span>
                         </button>
                         <button
                             class="share-btn p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant transition-colors"
-                            data-target="result-fr" data-label="French" title="Share">
+                            data-target="result-3" data-slot="3" title="Share">
                             <span class="material-symbols-outlined text-lg">share</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Card 4: German -->
+            <!-- Card 4 -->
             <div class="bg-surface-container-lowest rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between group"
-                id="card-de">
+                id="card-4">
                 <div class="absolute top-0 left-0 w-1 h-full bg-primary-fixed"></div>
                 <div>
                     <div class="flex justify-between items-center mb-4">
-                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none">
-                            <option value="hi">Hindi</option>
-                            <option value="es">Spanish</option>
-                            <option value="fr">French</option>
-                            <option value="de">German</option>
-                            <option value="ja">Japanese</option>
-                            <option value="ru">Russian</option>
-                            <option value="pt">Portuguese</option>
-                            <option value="zh-CN">Chinese</option>
+                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none" id="select-4">
+                            <!-- Populated dynamically -->
                         </select>
-                        <div id="indicator-de" class="h-1.5 w-1.5 rounded-full bg-primary opacity-20 transition-all">
+                        <div id="indicator-4" class="h-1.5 w-1.5 rounded-full bg-primary opacity-20 transition-all">
                         </div>
                     </div>
-                    <p id="result-de"
+                    <p id="result-4"
                         class="text-xl font-body leading-relaxed text-on-surface text-outline-variant/40 italic">
                         Awaiting translation...</p>
                 </div>
@@ -425,43 +395,36 @@
                     <div class="flex gap-2">
                         <button
                             class="copy-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
-                            data-target="result-de" title="Copy">
+                            data-target="result-4" title="Copy">
                             <span class="material-symbols-outlined text-lg">content_copy</span>
                         </button>
                         <button
                             class="tts-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
-                            data-target="result-de" data-lang="de" title="Listen">
+                            data-target="result-4" data-slot="4" title="Listen">
                             <span class="material-symbols-outlined text-lg">volume_up</span>
                         </button>
                         <button
                             class="share-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
-                            data-target="result-de" data-label="German" title="Share">
+                            data-target="result-4" data-slot="4" title="Share">
                             <span class="material-symbols-outlined text-lg">share</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Card 5: Japanese -->
+            <!-- Card 5 -->
             <div class="bg-surface-container-lowest rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between group"
-                id="card-ja">
+                id="card-5">
                 <div class="absolute top-0 left-0 w-1 h-full bg-primary-fixed"></div>
                 <div>
                     <div class="flex justify-between items-center mb-4">
-                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none">
-                            <option value="hi">Hindi</option>
-                            <option value="es">Spanish</option>
-                            <option value="fr">French</option>
-                            <option value="de">German</option>
-                            <option value="ja">Japanese</option>
-                            <option value="ru">Russian</option>
-                            <option value="pt">Portuguese</option>
-                            <option value="zh-CN">Chinese</option>
+                        <select class="lang-select text-xs font-bold uppercase bg-transparent outline-none" id="select-5">
+                            <!-- Populated dynamically -->
                         </select>
-                        <div id="indicator-ja" class="h-1.5 w-1.5 rounded-full bg-primary opacity-20 transition-all">
+                        <div id="indicator-5" class="h-1.5 w-1.5 rounded-full bg-primary opacity-20 transition-all">
                         </div>
                     </div>
-                    <p id="result-ja"
+                    <p id="result-5"
                         class="text-xl font-body leading-relaxed text-on-surface text-outline-variant/40 italic">
                         Awaiting translation...</p>
                 </div>
@@ -469,22 +432,23 @@
                     <div class="flex gap-2">
                         <button
                             class="copy-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
-                            data-target="result-ja" title="Copy">
+                            data-target="result-5" title="Copy">
                             <span class="material-symbols-outlined text-lg">content_copy</span>
                         </button>
                         <button
                             class="tts-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
-                            data-target="result-ja" data-lang="ja" title="Listen">
+                            data-target="result-5" data-slot="5" title="Listen">
                             <span class="material-symbols-outlined text-lg">volume_up</span>
                         </button>
                         <button
                             class="share-btn p-2 rounded-lg hover:bg-secondary-container text-on-surface-variant transition-colors"
-                            data-target="result-ja" data-label="Japanese" title="Share">
+                            data-target="result-5" data-slot="5" title="Share">
                             <span class="material-symbols-outlined text-lg">share</span>
                         </button>
                     </div>
                 </div>
             </div>
+
 
         </section>
 
