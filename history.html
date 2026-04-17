@@ -42,6 +42,7 @@
   }
 </script>
     <link rel="stylesheet" href="style.css" />
+    <script src="languages.js"></script>
     <script src="prefs.js"></script>
 </head>
 
@@ -143,12 +144,16 @@
             <p class="text-sm text-on-surface-variant mb-2">Input (${new Date(item.timestamp).toLocaleString()})</p>
             <p class="text-on-surface font-medium mb-4">${item.input}</p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              ${Object.entries(item.results).map(([lang, text]) => `
-                <div class="bg-surface-container-low p-4 rounded-lg">
-                  <span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">${lang.toUpperCase()}</span>
-                  <p class="text-sm text-on-surface mt-1">${text}</p>
-                </div>
-              `).join('')}
+              ${Object.entries(item.results).map(([lang, text]) => {
+                const langObj = typeof SUPPORTED_LANGUAGES !== 'undefined' ? SUPPORTED_LANGUAGES.find(l => l.code === lang) : null;
+                const langName = langObj ? langObj.name : lang.toUpperCase();
+                return `
+                  <div class="bg-surface-container-low p-4 rounded-lg">
+                    <span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">${langName}</span>
+                    <p class="text-sm text-on-surface mt-1">${text}</p>
+                  </div>
+                `;
+              }).join('')}
             </div>
           </div>
           <div class="ml-4 flex flex-col items-center gap-2">

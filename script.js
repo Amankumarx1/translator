@@ -34,6 +34,44 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'ja', lang: 'ja', label: 'Japanese' },
   ];
 
+  // ─── Initialize Languages ──────────────────────────────────
+  function initLanguageSelects() {
+    if (typeof SUPPORTED_LANGUAGES === 'undefined') {
+      console.error('SUPPORTED_LANGUAGES not found. Make sure languages.js is loaded.');
+      return;
+    }
+
+    // Populate Source Dropdown
+    if (sourceLang) {
+      // Keep "Auto Detect" as first option
+      sourceLang.innerHTML = '<option value="auto" selected>Auto Detect</option>';
+      SUPPORTED_LANGUAGES.forEach(lang => {
+        const opt = document.createElement('option');
+        opt.value = lang.code;
+        opt.textContent = lang.name;
+        sourceLang.appendChild(opt);
+      });
+    }
+
+    // Populate all Target Card Select dropdowns
+    document.querySelectorAll('.lang-select').forEach((select, idx) => {
+      select.innerHTML = '';
+      SUPPORTED_LANGUAGES.forEach(lang => {
+        const opt = document.createElement('option');
+        opt.value = lang.code;
+        opt.textContent = lang.name;
+        select.appendChild(opt);
+      });
+      // Set initial values based on targets array
+      if (targets[idx]) {
+        select.value = targets[idx].lang;
+      }
+    });
+  }
+
+  initLanguageSelects();
+
+
   // ─── Load last session ──────────────────────────────────────
   const savedInput = localStorage.getItem('atelier_last_input') || '';
   const savedResults = JSON.parse(localStorage.getItem('atelier_last_results') || '{}');

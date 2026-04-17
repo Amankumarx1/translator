@@ -42,6 +42,7 @@
   }
 </script>
     <link rel="stylesheet" href="style.css" />
+    <script src="languages.js"></script>
     <script src="prefs.js"></script>
 </head>
 
@@ -184,61 +185,14 @@
         <h2 class="text-xl font-bold font-headline">The Language Gallery</h2>
         <div class="relative flex-grow max-w-xs">
           <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
-          <input class="w-full pl-10 pr-4 py-2 bg-surface-container-high border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest text-sm transition-all outline-none" placeholder="Search 130+ languages..." type="text"/>
+          <input id="languageSearch" class="w-full pl-10 pr-4 py-2 bg-surface-container-high border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest text-sm transition-all outline-none" placeholder="Search 100+ languages..." type="text"/>
         </div>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
-          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">IT</div>
-          <div><p class="font-bold text-sm">Italian</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Modern Romance</p></div>
-          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
-        </div>
-        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
-          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">KO</div>
-          <div><p class="font-bold text-sm">Korean</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">East Asian</p></div>
-          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
-        </div>
-        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
-          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">AR</div>
-          <div><p class="font-bold text-sm">Arabic</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Semitic</p></div>
-          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
-        </div>
-
-        <!-- Large Card -->
-        <div class="col-span-2 relative overflow-hidden rounded-xl h-40 group cursor-pointer bg-gradient-to-br from-primary to-tertiary">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-          <div class="absolute bottom-4 left-4 text-white">
-            <p class="text-[10px] uppercase font-bold tracking-widest opacity-80">Collection</p>
-            <p class="text-xl font-bold font-headline">Mediterranean Bundle</p>
-            <p class="text-xs opacity-90">Spanish, Italian, Greek, Portuguese</p>
-          </div>
-          <button class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-white hover:text-primary transition-all">
-            <span class="material-symbols-outlined">auto_awesome</span>
-          </button>
-        </div>
-
-        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
-          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">ZH</div>
-          <div><p class="font-bold text-sm">Mandarin</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Sinitic</p></div>
-          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
-        </div>
-        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
-          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">PT</div>
-          <div><p class="font-bold text-sm">Portuguese</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Ibero-Romance</p></div>
-          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
-        </div>
-        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
-          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">RU</div>
-          <div><p class="font-bold text-sm">Russian</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Slavic</p></div>
-          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
-        </div>
-        <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
-          <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">NL</div>
-          <div><p class="font-bold text-sm">Dutch</p><p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">West Germanic</p></div>
-          <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">add</span> Pin to palette</button>
-        </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="languageGallery">
+        <!-- populated dynamically -->
       </div>
+
 
       <div class="flex justify-center mt-6">
         <button class="px-8 py-3 bg-surface-container-low hover:bg-surface-container-high text-on-surface font-bold text-sm rounded-full transition-all flex items-center gap-2">
@@ -258,6 +212,34 @@
   requireAuth();
   initAuthUI();
   document.getElementById('logoutLink')?.addEventListener('click', (e) => { e.preventDefault(); logout(); });
+
+  const gallery = document.getElementById('languageGallery');
+  const searchInput = document.getElementById('languageSearch');
+
+  function renderGallery(filter = '') {
+    if (typeof SUPPORTED_LANGUAGES === 'undefined') return;
+    
+    const filtered = SUPPORTED_LANGUAGES.filter(lang => 
+      lang.name.toLowerCase().includes(filter.toLowerCase()) || 
+      lang.code.toLowerCase().includes(filter.toLowerCase())
+    );
+
+    gallery.innerHTML = filtered.map(lang => `
+      <div class="group bg-surface-container-lowest border border-transparent hover:border-primary/20 p-5 rounded-xl transition-all hover:shadow-md cursor-pointer flex flex-col gap-3">
+        <div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">${lang.code.toUpperCase()}</div>
+        <div>
+          <p class="font-bold text-sm text-on-surface">${lang.name}</p>
+          <p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">${lang.code}</p>
+        </div>
+        <button class="mt-2 text-xs font-bold text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="material-symbols-outlined text-sm">add</span> Pin to palette
+        </button>
+      </div>
+    `).join('');
+  }
+
+  searchInput?.addEventListener('input', (e) => renderGallery(e.target.value));
+  renderGallery();
 </script>
 </body>
 </html>
