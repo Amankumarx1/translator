@@ -247,30 +247,21 @@ document.addEventListener('DOMContentLoaded', () => {
     return results[targetLang] || '';
   }
 
-  let azureCache = { query: '', src: '', config: null, results: {} };
   async function translateOne(query, src, targetLang) {
     const config = getEngineConfig();
     if (config.engine === 'azure') {
+      // For Azure, we now handle batching at the top level in translateAll
+      // This function remains for single-call fallbacks if needed
       if (!config.azureKey || !config.azureRegion) {
-        throw new Error('Azure key and region are required. Configure them in Settings.');
+        throw new Error('Azure key and region are required.');
       }
-
-      const isSameBatch = azureCache.query === query
-        && azureCache.src === src
-        && azureCache.config?.azureKey === config.azureKey
-        && azureCache.config?.azureRegion === config.azureRegion
-        && azureCache.config?.azureEndpoint === config.azureEndpoint;
-
-      if (!isSameBatch) {
-        const results = await translateAllAzure(query, src, targets.map(t => t.lang), config);
-        azureCache = { query, src, config, results };
-      }
-
-      return azureCache.results[targetLang] || '';
+      const results = await translateAllAzure(query, src, [targetLang], config);
+      return results[targetLang] || '';
     }
 
     return translateOneGoogle(query, src, targetLang);
   }
+
 
   function setLoading(id, isLoading) {
     const el = document.getElementById(`result-${id}`);
@@ -372,34 +363,58 @@ document.addEventListener('DOMContentLoaded', () => {
     statStatus.textContent = 'sync';
     statStatus.style.color = '#4956b4';
 
-    // Fire all translations in parallel
-    const promises = targets.map(async (t, index) => {
+    // Fire all translations
+    if (selectedEngine === 'azure') {
       try {
-        const dynamicLang = selectedLangs[index];
-        const target = targets.find(item => item.id === t.id);
-        if (target && target.label === 'Select Language') {
-          setResult(t.id, 'Choose a Language', false);
-          return;
+        const config = getEngineConfig();
+        // Filter out placeholders for the batch request
+        const validTargets = targets.filter((t, i) => selectedLangs[i] !== 'en' && targets.find(item => item.id === t.id)?.label !== 'Select Language');
+        const validLangs = validTargets.map((t, i) => {
+          const card = document.getElementById(`card-${t.id}`);
+          return card?.querySelector('.lang-select')?.value || t.lang;
+        });
+
+        if (validLangs.length > 0) {
+          const results = await translateAllAzure(query, src, validLangs, config);
+          targets.forEach((t, i) => {
+            const currentLang = selectedLangs[i];
+            if (results[currentLang]) {
+              setResult(t.id, results[currentLang], false);
+            } else if (selectedLangs[i] === 'en' || targets[i].label === 'Select Language') {
+              setResult(t.id, 'Choose a Language', false);
+            } else {
+               // If not in results but was requested, it might be a lang mismatch or empty result
+               setResult(t.id, 'Translation failed or not returned.', true);
+            }
+          });
+        } else {
+          // All slots were Select Language
+          targets.forEach(t => setResult(t.id, 'Choose a Language', false));
         }
-        const result = await translateOne(query, src, dynamicLang);
-        setResult(t.id, result, false);
       } catch (err) {
-        console.error(`Error [${t.label}]:`, err);
-        setResult(t.id, `Failed: ${err.message}`, true);
-        if (document.getElementById(`indicator-${t.id}`)) {
-          const ind = document.getElementById(`indicator-${t.id}`);
-          if (t.id === '3') {
-            ind.className = 'material-symbols-outlined text-error';
-            ind.textContent = 'error_outline';
-          } else {
-            ind.className = 'h-1.5 w-1.5 rounded-full bg-error opacity-100';
-          }
-        }
-
+        console.error('Azure Batch Error:', err);
+        targets.forEach(t => setResult(t.id, `Failed: ${err.message}`, true));
       }
-    });
+    } else {
+      // Google Fallback (Parallel Individual Requests)
+      const promises = targets.map(async (t, index) => {
+        try {
+          const dynamicLang = selectedLangs[index];
+          const target = targets.find(item => item.id === t.id);
+          if (target && target.label === 'Select Language') {
+            setResult(t.id, 'Choose a Language', false);
+            return;
+          }
+          const result = await translateOne(query, src, dynamicLang);
+          setResult(t.id, result, false);
+        } catch (err) {
+          console.error(`Error [${t.label}]:`, err);
+          setResult(t.id, `Failed: ${err.message}`, true);
+        }
+      });
+      await Promise.allSettled(promises);
+    }
 
-    await Promise.allSettled(promises);
 
     // Store session
     const savedResultMap = {};
