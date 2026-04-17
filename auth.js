@@ -1,5 +1,14 @@
-const API_URL = 'http://localhost:3000/api/auth';
 const AUTH_USER_KEY = 'atelier_auth_user';
+const LOCAL_USERS_KEY = 'atelier_local_users';
+
+function getLocalUsers() {
+  const raw = localStorage.getItem(LOCAL_USERS_KEY);
+  return raw ? JSON.parse(raw) : {};
+}
+
+function saveLocalUsers(users) {
+  localStorage.setItem(LOCAL_USERS_KEY, JSON.stringify(users));
+}
 
 function isAuthenticated() {
   return Boolean(sessionStorage.getItem(AUTH_USER_KEY));
@@ -31,35 +40,34 @@ async function createUser(email, password, username = '') {
   if (!normalizedEmail || !password) return { success: false, message: 'Email and password are required.' };
   if (!isValidEmail(normalizedEmail)) return { success: false, message: 'Enter a valid email address.' };
 
-  const passwordHash = await hashPassword(password);
+  const users = getLocalUsers();
+  if (users[normalizedEmail]) return { success: false, message: 'User already exists.' };
 
-  try {
-    const response = await fetch(`${API_URL}/signup`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: normalizedEmail, passwordHash, username: username.trim() })
-    });
-    return await response.json();
-  } catch (err) {
-    return { success: false, message: 'Server connection failed.' };
-  }
+  const passwordHash = await hashPassword(password);
+  users[normalizedEmail] = {
+    email: normalizedEmail,
+    passwordHash,
+    username: username.trim(),
+    createdAt: new Date().toISOString()
+  };
+  
+  saveLocalUsers(users);
+  return { success: true, user: { email: normalizedEmail, username: username.trim() } };
 }
 
 async function authenticateUser(email, password) {
   const normalizedEmail = normalizeEmail(email);
   const passwordHash = await hashPassword(password);
 
-  try {
-    const response = await fetch(`${API_URL}/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: normalizedEmail, passwordHash })
-    });
-    return await response.json();
-  } catch (err) {
-    return { success: false, message: 'Server connection failed.' };
-  }
+  const users = getLocalUsers();
+  const user = users[normalizedEmail];
+
+  if (!user) return { success: false, message: 'Account not found.' };
+  if (user.passwordHash !== passwordHash) return { success: false, message: 'Incorrect password.' };
+
+  return { success: true, user: { email: user.email, username: user.username } };
 }
+
 
 function loginUser(user) {
   const payload = {

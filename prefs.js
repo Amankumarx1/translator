@@ -3,13 +3,8 @@
   const user = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
   let settings = {};
 
-  if (user && user.email) {
-    try {
-      const resp = await fetch(`http://localhost:3000/api/user/data?email=${encodeURIComponent(user.email)}`);
-      const data = await resp.json();
-      if (data.success) settings = data.settings || {};
-    } catch (e) { console.error('Failed to load settings from server'); }
-  }
+  // Server sync removed (Local Only Mode)
+
 
   // Fallback to local storage if server settings are empty
   const darkMode = settings.darkMode !== undefined ? settings.darkMode : (localStorage.getItem('atelier_dark_mode') === 'true');

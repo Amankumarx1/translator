@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const label = document.getElementById('accuracy-label');
     if (bar) bar.style.width = '0%';
     if (label) label.textContent = 'Contextual Accuracy: —';
-    statStatus.textContent = 'cloud_off';
+    statStatus.textContent = 'storage';
     statStatus.style.color = '';
     localStorage.removeItem('atelier_last_results');
     inputText.focus();
@@ -346,15 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
       engine: selectedEngine
     };
 
-    if (user && user.email) {
-      try {
-        await fetch('http://localhost:3000/api/user/save-history', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: user.email, entry: historyEntry })
-        });
-      } catch (e) { console.error('Failed to sync history with server'); }
-    }
+    // Server sync removed (Local Only Mode)
 
     const history = JSON.parse(localStorage.getItem('atelier_history') || '[]');
     history.unshift(historyEntry);
@@ -379,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateStatsUI() {
     if (statWords) statWords.textContent = totalWords.toLocaleString();
     if (statTranslations) statTranslations.textContent = totalTranslations;
-    statStatus.textContent = 'cloud_done';
+    statStatus.textContent = 'storage';
     statStatus.style.color = '#4956b4';
   }
 
@@ -387,16 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const user = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
     let history = JSON.parse(localStorage.getItem('atelier_history') || '[]');
 
-    if (user && user.email) {
-      try {
-        const resp = await fetch(`http://localhost:3000/api/user/data?email=${encodeURIComponent(user.email)}`);
-        const data = await resp.json();
-        if (data.success && data.history) {
-          history = data.history;
-          localStorage.setItem('atelier_history', JSON.stringify(history));
-        }
-      } catch (e) { console.error('Failed to load session from server'); }
-    }
+    // Session loading from server removed (Local Only Mode)
 
     // Restore last input/results
     const lastInput = localStorage.getItem('atelier_last_input');
