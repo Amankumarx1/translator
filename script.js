@@ -69,7 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = targets.find(t => t.id === slotId);
       if (target) {
         select.value = target.lang;
+        const cardTitle = document.getElementById(`result-${slotId}`);
+        if (target.label === 'Select Language') {
+          if (cardTitle) cardTitle.textContent = 'Choose a Language';
+        }
       }
+
 
       // Add change listener to update global palette
       select.addEventListener('change', () => {
@@ -371,6 +376,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const promises = targets.map(async (t, index) => {
       try {
         const dynamicLang = selectedLangs[index];
+        const target = targets.find(item => item.id === t.id);
+        if (target && target.label === 'Select Language') {
+          setResult(t.id, 'Choose a Language', false);
+          return;
+        }
         const result = await translateOne(query, src, dynamicLang);
         setResult(t.id, result, false);
       } catch (err) {
