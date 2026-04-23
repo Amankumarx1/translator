@@ -363,68 +363,39 @@
     } catch (e) { status.textContent = '✗ Network error. Check endpoint.'; status.style.color = '#a8364b'; }
   });
 
-  // ── Appearance Logic ──────────────────────────────────────
+  // ── Appearance & Settings Logic ───────────────────────────
   const darkModeToggle = document.getElementById('darkModeToggle');
   const autoTranslateToggle = document.getElementById('autoTranslateToggle');
   const fontSizeSlider = document.getElementById('fontSizeSlider');
-
-  // Load Appearance Prefs
-  const isDark = localStorage.getItem('atelier_dark_mode') === 'true';
-  const isAuto = localStorage.getItem('atelier_auto_translate') === 'true';
-  const savedSize = parseInt(localStorage.getItem('atelier_font_size'), 10) || 16;
-
-  if (isDark) darkModeToggle.classList.add('toggle-on');
-  if (isAuto) autoTranslateToggle.classList.add('toggle-on');
-  fontSizeSlider.value = savedSize;
-
-  // Handle immediate visual updates for appearance
-  darkModeToggle.addEventListener('click', () => {
-    darkModeToggle.classList.toggle('toggle-on');
-    const on = darkModeToggle.classList.contains('toggle-on');
-    if (on) document.documentElement.classList.add('dark');
-    else document.documentElement.classList.remove('dark');
-    localStorage.setItem('atelier_dark_mode', on);
-  });
-
-  autoTranslateToggle.addEventListener('click', () => {
-    autoTranslateToggle.classList.toggle('toggle-on');
-    const on = autoTranslateToggle.classList.contains('toggle-on');
-    localStorage.setItem('atelier_auto_translate', on);
-  });
-
-  fontSizeSlider.addEventListener('input', (e) => {
-    const val = e.target.value;
-    document.documentElement.style.fontSize = val + 'px';
-    localStorage.setItem('atelier_font_size', val);
-  });
-
-  // --- Appearance Toggles ---
-  const darkModeToggle = document.getElementById('darkModeToggle');
-  const autoTranslateToggle = document.getElementById('autoTranslateToggle');
-  const fontSizeSlider = document.getElementById('fontSizeSlider');
+  const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+  const signOutBtn = document.getElementById('signOutBtn');
 
   function updateToggleUI(el, active) {
+    if (!el) return;
     const thumb = el.querySelector('.toggle-thumb');
     if (active) {
       el.classList.add('bg-primary');
       el.classList.remove('bg-surface-container-high');
-      thumb.classList.add('translate-x-6');
+      if (thumb) thumb.classList.add('translate-x-6');
     } else {
       el.classList.remove('bg-primary');
       el.classList.add('bg-surface-container-high');
-      thumb.classList.remove('translate-x-6');
+      if (thumb) thumb.classList.remove('translate-x-6');
     }
   }
 
-  // Load Appearance Prefs
+  // Current State
   let isDarkMode = localStorage.getItem('atelier_dark_mode') === 'true';
   let isAutoTranslate = localStorage.getItem('atelier_auto_translate') === 'true';
   let currentFontSize = localStorage.getItem('atelier_font_size') || '16';
 
+  // Initial Sync
   updateToggleUI(darkModeToggle, isDarkMode);
   updateToggleUI(autoTranslateToggle, isAutoTranslate);
   if (fontSizeSlider) fontSizeSlider.value = currentFontSize;
+  if (isDarkMode) document.documentElement.classList.add('dark');
 
+  // Listeners
   darkModeToggle?.addEventListener('click', () => {
     isDarkMode = !isDarkMode;
     localStorage.setItem('atelier_dark_mode', isDarkMode);
@@ -442,8 +413,7 @@
     localStorage.setItem('atelier_font_size', fontSizeSlider.value);
   });
 
-  // Save (Engine mainly, Appearance is saved instantly)
-  document.getElementById('saveSettingsBtn').addEventListener('click', async () => {
+  saveSettingsBtn?.addEventListener('click', async () => {
     const engine = document.querySelector('input[name="engine"]:checked')?.value || 'google';
     localStorage.setItem('atelier_engine', engine);
     
@@ -494,12 +464,10 @@
     }, 3000);
   });
 
-  document.getElementById('signOutBtn')?.addEventListener('click', () => logout());
+  signOutBtn?.addEventListener('click', () => logout());
 
   requireAuth();
   initAuthUI();
-  // Set initial dark mode on page load
-  if (isDarkMode) document.documentElement.classList.add('dark');
   document.getElementById('logoutLink')?.addEventListener('click', (e) => { e.preventDefault(); logout(); });
 </script>
 </body>
