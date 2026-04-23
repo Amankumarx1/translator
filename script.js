@@ -665,6 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  if (translateBtn) translateBtn.addEventListener('click', translateAll);
   if (summarizeBtn) summarizeBtn.addEventListener('click', summarizeText);
   if (closeSummaryBtn) closeSummaryBtn.addEventListener('click', closeSummary);
   if (summaryModal) {
