@@ -428,9 +428,10 @@
 
     // Sync to server
     const user = getCurrentUser();
+    const BASE_URL = window.location.origin === 'null' || window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
     if (user && user.email) {
       try {
-        await fetch('/api/user/save-settings', {
+        await fetch(`${BASE_URL}/api/user/save-settings`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: user.email, settings })

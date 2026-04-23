@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ─── State ────────────────────────────────────────────────
   let totalTranslations = 0;
   let totalWords = 0;
+  const BASE_URL = window.location.origin === 'null' || window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
 
   // ─── Elements ─────────────────────────────────────────────
   const inputText = document.getElementById('inputText');
@@ -447,7 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const user = getCurrentUser();
     if (user && user.email) {
       try {
-        await fetch('/api/user/save-history', {
+        await fetch(`${BASE_URL}/api/user/save-history`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: user.email, entry: historyEntry })
@@ -725,7 +726,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (user && user.email) {
       try {
-        const response = await fetch(`/api/user/data?email=${encodeURIComponent(user.email)}`);
+        const response = await fetch(`${BASE_URL}/api/user/data?email=${encodeURIComponent(user.email)}`);
         if (response.ok) {
           const data = await response.json();
           if (data.success) {

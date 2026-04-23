@@ -1,5 +1,6 @@
 const AUTH_USER_KEY = 'atelier_auth_user';
 const LOCAL_USERS_KEY = 'atelier_local_users';
+const BASE_URL = window.location.origin === 'null' || window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
 
 function getLocalUsers() {
   const raw = localStorage.getItem(LOCAL_USERS_KEY);
@@ -43,7 +44,7 @@ async function createUser(email, password, username = '') {
   const passwordHash = await hashPassword(password);
   
   try {
-    const response = await fetch('/api/auth/signup', {
+    const response = await fetch(`${BASE_URL}/api/auth/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: normalizedEmail, passwordHash, username: username.trim() })
@@ -62,7 +63,7 @@ async function authenticateUser(email, password) {
   const passwordHash = await hashPassword(password);
 
   try {
-    const response = await fetch('/api/auth/login', {
+    const response = await fetch(`${BASE_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: normalizedEmail, passwordHash })
