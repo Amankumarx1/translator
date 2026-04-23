@@ -896,11 +896,17 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.share-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       const targetId = btn.dataset.target;
-      const label = btn.dataset.label;
+      const slotId = btn.dataset.slot;
       const el = document.getElementById(targetId);
       if (!el) return;
+      
       const text = el.textContent.trim();
       if (!text || text === 'Awaiting translation...' || text.startsWith('Failed')) return;
+      
+      const targets = getActivePalette();
+      const target = targets.find(t => t.id === slotId);
+      const label = target ? target.label : 'Language';
+
       if (navigator.share) {
         try {
           await navigator.share({ title: `${label} Translation`, text });

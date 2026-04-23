@@ -160,6 +160,9 @@ h1, h2, h3, .font-headline {
 .dark .bg-surface-dim { background-color: #141618 !important; }
 .dark .bg-background { background-color: #1a1c20 !important; }
 .dark .bg-surface-variant { background-color: #2c2e33 !important; }
+.dark .bg-secondary-container { background-color: #2a2d35 !important; }
+.dark .bg-tertiary-container { background-color: #352a35 !important; }
+.dark .hover\:bg-secondary-container:hover { background-color: #363842 !important; }
 
 /* Text */
 .dark .text-on-surface { color: #e4e6ea !important; }
