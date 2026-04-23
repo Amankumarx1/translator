@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -55,7 +55,7 @@
     </div>
 
 <!-- SideNavBar -->
-<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f1f4f5] flex flex-col py-8 space-y-6 z-50">
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low flex flex-col py-8 space-y-6 z-50">
   <div class="px-8 mb-4">
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary">
@@ -74,11 +74,11 @@
     </a>
   </div>
   <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
-    <a href="index.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+    <a href="index.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-surface-container-high transition-all rounded-r-lg">
       <span class="material-symbols-outlined">translate</span>
       <span class="font-headline text-sm font-semibold">Translate</span>
     </a>
-    <a href="languages.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+    <a href="languages.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-surface-container-high transition-all rounded-r-lg">
       <span class="material-symbols-outlined">language</span>
       <span class="font-headline text-sm font-semibold">Languages</span>
     </a>
@@ -86,11 +86,11 @@
       <span class="material-symbols-outlined">history</span>
       <span class="font-headline text-sm font-semibold">History</span>
     </a>
-    <a href="settings.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+    <a href="settings.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-surface-container-high transition-all rounded-r-lg">
       <span class="material-symbols-outlined">settings</span>
       <span class="font-headline text-sm font-semibold">Settings</span>
     </a>
-    <a href="#" id="logoutLink" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+    <a href="#" id="logoutLink" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-surface-container-high transition-all rounded-r-lg">
       <span class="material-symbols-outlined">logout</span>
       <span class="font-headline text-sm font-semibold">Logout</span>
     </a>
@@ -122,52 +122,76 @@
 
 <script src="auth.js"></script>
 <script>
+  const BASE_URL = window.location.origin === 'null' || window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
   requireAuth();
   initAuthUI();
   document.getElementById('logoutLink')?.addEventListener('click', (e) => { e.preventDefault(); logout(); });
 
   const historyContainer = document.getElementById('historyContainer');
   const clearButtonContainer = document.getElementById('clearButtonContainer');
-  const historyData = JSON.parse(localStorage.getItem('atelier_history') || '[]');
 
-  if (historyData.length > 0) {
-    clearButtonContainer.innerHTML = '<button onclick="clearAllHistory()" class="mt-4 px-4 py-2 bg-error text-on-error rounded-lg hover:bg-error/80 transition-colors">Clear All History</button>';
+  async function loadHistory() {
+    let historyData = JSON.parse(localStorage.getItem('atelier_history') || '[]');
+    const user = getCurrentUser();
+
+    if (user && user.email) {
+      try {
+        const response = await fetch(`${BASE_URL}/api/user/data?email=${encodeURIComponent(user.email)}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.history && data.history.length > 0) {
+            historyData = data.history;
+            localStorage.setItem('atelier_history', JSON.stringify(historyData));
+          }
+        }
+      } catch (err) {
+        console.warn('Could not load history from server:', err.message);
+      }
+    }
+
+    renderHistory(historyData);
   }
 
-  if (historyData.length === 0) {
-    historyContainer.innerHTML = '<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm"><p class="text-on-surface-variant italic">No translation history yet. Start translating to build your history!</p></div>';
-  } else {
-    historyContainer.innerHTML = historyData.map((item, index) => `
-      <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
-        <div class="flex justify-between items-start mb-4">
-          <div class="flex-1">
-            <p class="text-sm text-on-surface-variant mb-2">Input (${new Date(item.timestamp).toLocaleString()})</p>
-            <p class="text-on-surface font-medium mb-4">${item.input}</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              ${Object.entries(item.results).map(([lang, text]) => {
-                const langObj = typeof SUPPORTED_LANGUAGES !== 'undefined' ? SUPPORTED_LANGUAGES.find(l => l.code === lang) : null;
-                const langName = langObj ? langObj.name : lang.toUpperCase();
-                return `
-                  <div class="bg-surface-container-low p-4 rounded-lg">
-                    <span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">${langName}</span>
-                    <p class="text-sm text-on-surface mt-1">${text}</p>
-                  </div>
-                `;
-              }).join('')}
+  function renderHistory(historyData) {
+    if (historyData.length > 0) {
+      clearButtonContainer.innerHTML = '<button onclick="clearAllHistory()" class="mt-4 px-4 py-2 bg-error text-on-error rounded-lg hover:bg-error/80 transition-colors">Clear All History</button>';
+    }
+
+    if (historyData.length === 0) {
+      historyContainer.innerHTML = '<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm"><p class="text-on-surface-variant italic">No translation history yet. Start translating to build your history!</p></div>';
+    } else {
+      historyContainer.innerHTML = historyData.map((item, index) => `
+        <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex-1">
+              <p class="text-sm text-on-surface-variant mb-2">Input (${new Date(item.timestamp).toLocaleString()})</p>
+              <p class="text-on-surface font-medium mb-4">${item.input}</p>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                ${Object.entries(item.results).map(([lang, text]) => {
+                  const langObj = typeof SUPPORTED_LANGUAGES !== 'undefined' ? SUPPORTED_LANGUAGES.find(l => l.code === lang) : null;
+                  const langName = langObj ? langObj.name : lang.toUpperCase();
+                  return `
+                    <div class="bg-surface-container-low p-4 rounded-lg">
+                      <span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">${langName}</span>
+                      <p class="text-sm text-on-surface mt-1">${text}</p>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
             </div>
-          </div>
-          <div class="ml-4 flex flex-col items-center gap-2">
-            <div class="flex items-center gap-1 rounded-full bg-surface-container-high px-3 py-2 text-xs font-semibold text-primary">
-              <span class="material-symbols-outlined text-sm">bolt</span>
-              <span>${item.engine === 'azure' ? 'Azure' : item.engine === 'google' ? 'Google' : 'Engine'}</span>
+            <div class="ml-4 flex flex-col items-center gap-2">
+              <div class="flex items-center gap-1 rounded-full bg-surface-container-high px-3 py-2 text-xs font-semibold text-primary">
+                <span class="material-symbols-outlined text-sm">bolt</span>
+                <span>${item.engine === 'azure' ? 'Azure' : item.engine === 'google' ? 'Google' : 'Engine'}</span>
+              </div>
+              <button onclick="deleteHistoryItem(${index})" class="p-2 text-on-surface-variant hover:text-error transition-colors">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
             </div>
-            <button onclick="deleteHistoryItem(${index})" class="p-2 text-on-surface-variant hover:text-error transition-colors">
-              <span class="material-symbols-outlined">delete</span>
-            </button>
           </div>
         </div>
-      </div>
-    `).join('');
+      `).join('');
+    }
   }
 
   function deleteHistoryItem(index) {
@@ -183,6 +207,8 @@
       location.reload();
     }
   }
+
+  loadHistory();
 </script>
 
 </body>

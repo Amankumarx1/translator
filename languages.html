@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -55,7 +55,7 @@
     </div>
 
 <!-- SideNavBar -->
-<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f1f4f5] flex flex-col py-8 space-y-6 z-50">
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low flex flex-col py-8 space-y-6 z-50">
   <div class="px-8 mb-4">
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary">
@@ -74,7 +74,7 @@
     </a>
   </div>
   <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
-    <a href="index.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+    <a href="index.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-surface-container-high transition-all rounded-r-lg">
       <span class="material-symbols-outlined">translate</span>
       <span class="font-headline text-sm font-semibold">Translate</span>
     </a>
@@ -82,15 +82,15 @@
       <span class="material-symbols-outlined">language</span>
       <span class="font-headline text-sm font-semibold">Languages</span>
     </a>
-    <a href="history.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+    <a href="history.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-surface-container-high transition-all rounded-r-lg">
       <span class="material-symbols-outlined">history</span>
       <span class="font-headline text-sm font-semibold">History</span>
     </a>
-    <a href="settings.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+    <a href="settings.html" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-surface-container-high transition-all rounded-r-lg">
       <span class="material-symbols-outlined">settings</span>
       <span class="font-headline text-sm font-semibold">Settings</span>
     </a>
-    <a href="#" id="logoutLink" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-[#e5e9eb] transition-all rounded-r-lg">
+    <a href="#" id="logoutLink" class="flex items-center gap-3 py-3 text-on-surface pl-4 hover:bg-surface-container-high transition-all rounded-r-lg">
       <span class="material-symbols-outlined">logout</span>
       <span class="font-headline text-sm font-semibold">Logout</span>
     </a>
@@ -170,6 +170,7 @@
 </a>
 <script src="auth.js"></script>
 <script>
+  const BASE_URL = window.location.origin === 'null' || window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
   requireAuth();
   initAuthUI();
   document.getElementById('logoutLink')?.addEventListener('click', (e) => { e.preventDefault(); logout(); });
@@ -177,6 +178,39 @@
   const gallery = document.getElementById('languageGallery');
   const searchInput = document.getElementById('languageSearch');
   const paletteContainer = document.getElementById('activePaletteContainer');
+
+  async function syncPaletteToServer() {
+    const user = getCurrentUser();
+    if (!user || !user.email) return;
+    const palette = typeof getActivePalette === 'function' ? getActivePalette() : [];
+    try {
+      await fetch(`${BASE_URL}/api/user/save-palette`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: user.email, palette })
+      });
+    } catch (err) {
+      console.warn('Could not sync palette to server:', err.message);
+    }
+  }
+
+  async function loadPaletteFromServer() {
+    const user = getCurrentUser();
+    if (!user || !user.email) return;
+    try {
+      const response = await fetch(`${BASE_URL}/api/user/palette?email=${encodeURIComponent(user.email)}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.palette && data.palette.length > 0) {
+          if (typeof setActivePalette === 'function') {
+            setActivePalette(data.palette);
+          }
+        }
+      }
+    } catch (err) {
+      console.warn('Could not load palette from server:', err.message);
+    }
+  }
 
   function renderPalette() {
     if (typeof getActivePalette !== 'function') return;
@@ -196,29 +230,27 @@
 
   function removeFromPalette(code) {
     const palette = getActivePalette();
-    // Instead of removing, we'll reset to a default or just keep it empty? 
-    // The UI is designed for exactly 5. Let's replace with a "Choose Language" placeholder.
     const idx = palette.findIndex(p => p.lang === code);
     if (idx !== -1) {
       palette[idx].lang = 'en';
       palette[idx].label = 'Select Language';
       setActivePalette(palette);
       renderPalette();
+      syncPaletteToServer();
     }
   }
 
   function addToPalette(code, name) {
     const palette = getActivePalette();
-    // Find first placeholder or empty slot
     const emptyIdx = palette.findIndex(p => p.label === 'Select Language' || p.lang === 'en');
     if (emptyIdx !== -1) {
       palette[emptyIdx].lang = code;
       palette[emptyIdx].label = name;
       setActivePalette(palette);
       renderPalette();
-      // Show mini toast or feedback
+      syncPaletteToServer();
     } else {
-        alert('Palette is full! Remove a language from the palette first.');
+      alert('Palette is full! Remove a language from the palette first.');
     }
   }
 
@@ -246,8 +278,13 @@
   }
 
   searchInput?.addEventListener('input', (e) => renderGallery(e.target.value));
-  renderGallery();
-  renderPalette();
+
+  // Initialize: load from server first, then render
+  (async () => {
+    await loadPaletteFromServer();
+    renderGallery();
+    renderPalette();
+  })();
 </script>
 </body>
 </html>
