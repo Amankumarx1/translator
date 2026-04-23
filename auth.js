@@ -53,8 +53,14 @@ async function createUser(email, password, username = '') {
     const result = await response.json();
     return result;
   } catch (err) {
-    console.error('Signup Error:', err);
-    return { success: false, message: 'Could not connect to the server. Make sure server.js is running.' };
+    console.warn('Server unreachable, falling back to local storage for signup.');
+    const users = getLocalUsers();
+    if (users[normalizedEmail]) {
+      return { success: false, message: 'User already exists (local).' };
+    }
+    users[normalizedEmail] = { email: normalizedEmail, passwordHash, username: username.trim(), createdAt: new Date().toISOString() };
+    saveLocalUsers(users);
+    return { success: true, user: { email: normalizedEmail, username: username.trim() } };
   }
 }
 
@@ -72,8 +78,16 @@ async function authenticateUser(email, password) {
     const result = await response.json();
     return result;
   } catch (err) {
-    console.error('Login Error:', err);
-    return { success: false, message: 'Could not connect to the server. Make sure server.js is running.' };
+    console.warn('Server unreachable, falling back to local storage for login.');
+    const users = getLocalUsers();
+    const user = users[normalizedEmail];
+    if (!user) {
+      return { success: false, message: 'Account not found (local).' };
+    }
+    if (user.passwordHash !== passwordHash) {
+      return { success: false, message: 'Incorrect password.' };
+    }
+    return { success: true, user: { email: user.email, username: user.username } };
   }
 }
 
