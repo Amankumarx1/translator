@@ -445,6 +445,14 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('atelier_last_input', query);
     localStorage.setItem('atelier_last_results', JSON.stringify(savedResultMap));
 
+    // Add to history
+    const historyEntry = {
+      input: query,
+      results: historyResultMap,
+      timestamp: new Date().toISOString(),
+      engine: selectedEngine
+    };
+
     const user = getCurrentUser();
     if (user && user.email) {
       try {
