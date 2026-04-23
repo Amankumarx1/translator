@@ -128,3 +128,79 @@ h1, h2, h3, .font-headline {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--on-surface-variant);
 }
+
+/* ─── Dark Mode ─────────────────────────────────────────── */
+.dark {
+  --primary: #8c99fc;
+  --primary-fixed-dim: #7f8ced;
+  --surface: #121416;
+  --on-surface: #e2e4e5;
+  --surface-container-low: #1a1d1f;
+  --surface-container-high: #2a2d30;
+  --on-surface-variant: #c0c6c8;
+  --outline-variant: #44494b;
+  --glass-effect: rgba(30, 33, 36, 0.85);
+  --error: #f97386;
+  color-scheme: dark;
+}
+
+.dark body {
+  background-color: #121416 !important;
+  color: #e2e4e5 !important;
+}
+
+.dark .bg-surface { background-color: #121416 !important; }
+.dark .bg-surface-container { background-color: #1e2123 !important; }
+.dark .bg-surface-container-low { background-color: #1a1d1f !important; }
+.dark .bg-surface-container-high { background-color: #2a2d30 !important; }
+.dark .bg-surface-container-highest { background-color: #353839 !important; }
+.dark .bg-surface-container-lowest { background-color: #0e1011 !important; }
+.dark .bg-surface-bright { background-color: #1e2123 !important; }
+.dark .bg-surface-dim { background-color: #0e1011 !important; }
+.dark .bg-background { background-color: #121416 !important; }
+.dark .bg-surface-variant { background-color: #2a2d30 !important; }
+
+.dark .text-on-surface { color: #e2e4e5 !important; }
+.dark .text-on-surface-variant { color: #c0c6c8 !important; }
+.dark .text-on-background { color: #e2e4e5 !important; }
+.dark .text-outline { color: #8a9092 !important; }
+
+.dark .border-surface-container { border-color: #2a2d30 !important; }
+.dark .border-outline-variant { border-color: #44494b !important; }
+
+.dark .bg-primary { background-color: #4956b4 !important; }
+.dark .text-primary { color: #8c99fc !important; }
+
+.dark .glass-effect {
+  background: rgba(30, 33, 36, 0.85) !important;
+  border-color: rgba(60, 63, 66, 0.4) !important;
+}
+
+.dark textarea,
+.dark input[type="text"],
+.dark select {
+  background-color: #1e2123 !important;
+  color: #e2e4e5 !important;
+  border-color: #44494b !important;
+}
+
+.dark textarea::placeholder {
+  color: #6b7072 !important;
+}
+
+.dark .skeleton {
+  background: linear-gradient(90deg, #2a2d30 25%, #353839 50%, #2a2d30 75%) !important;
+  background-size: 200% 100% !important;
+}
+
+.dark .blob { opacity: 0.08; }
+.dark header { background-color: #121416 !important; }
+
+.dark ::-webkit-scrollbar-track { background: #1a1d1f; }
+.dark ::-webkit-scrollbar-thumb { background: #44494b; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #5a5f62; }
+
+/* Toggle thumb transition */
+.toggle-thumb {
+  transition: transform 0.2s ease;
+}

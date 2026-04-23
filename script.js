@@ -5,6 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let totalWords = 0;
   const BASE_URL = window.location.origin === 'null' || window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
 
+  // Apply dark mode immediately to prevent flash
+  if (localStorage.getItem('atelier_dark_mode') === 'true') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+
   // ─── Elements ─────────────────────────────────────────────
   const inputText = document.getElementById('inputText');
   const translateBtn = document.getElementById('translateBtn');
