@@ -475,8 +475,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // ─── Summarization (Azure) ─────────────────────────────────
   async function summarizeText() {
     const query = inputText.value.trim();
-    if (!query || query.length < 50) {
-      showToast('Please enter a longer paragraph (at least 50 characters) to summarize.', 'warning', 'warning');
+    if (!query) {
+      showToast('Please enter some text to summarize.', 'warning', 'warning');
       return;
     }
 
