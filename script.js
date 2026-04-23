@@ -24,6 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const toast = document.getElementById('toast');
   const toastMessage = document.getElementById('toast-message');
   const toastIcon = document.getElementById('toast-icon');
+  const summarizeBtn = document.getElementById('summarizeBtn');
+  const summaryModal = document.getElementById('summaryModal');
+  const summaryText = document.getElementById('summaryText');
+  const summaryLoading = document.getElementById('summaryLoading');
+  const summaryResult = document.getElementById('summaryResult');
+  const closeSummaryBtn = document.getElementById('closeSummaryBtn');
+  const copySummaryBtn = document.getElementById('copySummaryBtn');
+  const downloadSummaryBtn = document.getElementById('downloadSummaryBtn');
+  const summaryCompression = document.getElementById('summaryCompression');
+  const summarySentences = document.getElementById('summarySentences');
 
   // Translation targets: { id suffix, lang code, label }
   // Translation targets loaded from global palette
@@ -383,8 +393,8 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (selectedLangs[i] === 'en' || targets[i].label === 'Select Language') {
               setResult(t.id, 'Choose a Language', false);
             } else {
-               // If not in results but was requested, it might be a lang mismatch or empty result
-               setResult(t.id, 'Translation failed or not returned.', true);
+              // If not in results but was requested, it might be a lang mismatch or empty result
+              setResult(t.id, 'Translation failed or not returned.', true);
             }
           });
         } else {
@@ -460,6 +470,144 @@ document.addEventListener('DOMContentLoaded', () => {
     translateBtn.disabled = false;
 
     showToast('All 5 translations complete!', 'check_circle', 'success');
+  }
+
+  // ─── Summarization (Azure) ─────────────────────────────────
+  async function summarizeText() {
+    const query = inputText.value.trim();
+    if (!query || query.length < 50) {
+      showToast('Please enter a longer paragraph (at least 50 characters) to summarize.', 'warning', 'warning');
+      return;
+    }
+
+    const config = getEngineConfig();
+    if (!isAzureConfigured(config)) {
+      showToast('Summarization requires Azure credentials. Please configure them in Settings.', 'error', 'error');
+      return;
+    }
+
+    // Show modal and loading state
+    summaryModal.classList.remove('opacity-0', 'pointer-events-none');
+    summaryModal.querySelector('#summaryModalContent').classList.remove('scale-95');
+    summaryModal.querySelector('#summaryModalContent').classList.add('scale-100');
+    summaryLoading.classList.remove('hidden');
+    summaryResult.classList.add('hidden');
+
+    try {
+      // Azure Language Service Summarization Endpoint
+      // Note: We assume the user's endpoint/resource supports Language Service
+      // If it's a dedicated Translator resource, it might fail.
+      const endpoint = config.azureEndpoint.replace('api.cognitive.microsofttranslator.com', '').replace(/\/+$/, '') || `${config.azureRegion}.api.cognitive.microsoft.com`;
+      const url = `https://${endpoint}/language/:analyze-text?api-version=2023-04-01`;
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Ocp-Apim-Subscription-Key': config.azureKey,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          kind: "ExtractiveSummarization",
+          parameters: {
+            sentenceCount: 3
+          },
+          analysisInput: {
+            documents: [{
+              id: "1",
+              language: sourceLang.value === 'auto' ? 'en' : sourceLang.value,
+              text: query
+            }]
+          }
+        })
+      });
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err?.error?.message || `Azure Language Service Error ${response.status}`);
+      }
+
+      const data = await response.json();
+      const results = data.results?.documents?.[0]?.sentences;
+
+      if (!results || results.length === 0) {
+        throw new Error('No summary could be generated for this text.');
+      }
+
+      const summary = results.map(s => s.text).join(' ');
+      summaryText.textContent = summary;
+
+      // Calculate stats
+      const originalWords = query.split(/\s+/).filter(Boolean).length;
+      const summaryWords = summary.split(/\s+/).filter(Boolean).length;
+      const ratio = Math.round((1 - (summaryWords / originalWords)) * 100);
+
+      summaryCompression.textContent = `${ratio}% Reduced`;
+      summarySentences.textContent = `${results.length} Key Points`;
+
+      summaryLoading.classList.add('hidden');
+      summaryResult.classList.remove('hidden');
+    } catch (err) {
+      console.error('Summarization Error:', err);
+      summaryText.textContent = `Error: ${err.message}`;
+      summaryLoading.classList.add('hidden');
+      summaryResult.classList.remove('hidden');
+      summaryCompression.textContent = 'Error';
+      summarySentences.textContent = '0';
+    }
+  }
+
+  function closeSummary() {
+    summaryModal.classList.add('opacity-0', 'pointer-events-none');
+    summaryModal.querySelector('#summaryModalContent').classList.add('scale-95');
+    summaryModal.querySelector('#summaryModalContent').classList.remove('scale-100');
+  }
+
+  if (summarizeBtn) summarizeBtn.addEventListener('click', summarizeText);
+  if (closeSummaryBtn) closeSummaryBtn.addEventListener('click', closeSummary);
+  if (summaryModal) {
+    summaryModal.addEventListener('click', (e) => {
+      if (e.target === summaryModal) closeSummary();
+    });
+  }
+
+  if (copySummaryBtn) {
+    copySummaryBtn.addEventListener('click', () => {
+      const text = summaryText.textContent;
+      if (!text || text.startsWith('Your summary') || text.startsWith('Error')) return;
+      navigator.clipboard.writeText(text)
+        .then(() => showToast('Summary copied!', 'check_circle', 'success'))
+        .catch(() => showToast('Copy failed', 'error', 'error'));
+    });
+  }
+
+  if (downloadSummaryBtn) {
+    downloadSummaryBtn.addEventListener('click', () => {
+      const text = summaryText.textContent;
+      if (!text || text.startsWith('Your summary') || text.startsWith('Error')) return;
+
+      const report = `THE LINGUISTIC ATELIER - SUMMARY REPORT\n` +
+        `========================================\n\n` +
+        `Original Text Length: ${inputText.value.length} chars\n` +
+        `Summary Length: ${text.length} chars\n` +
+        `Compression: ${summaryCompression.textContent}\n` +
+        `Key Points: ${summarySentences.textContent}\n\n` +
+        `SUMMARY:\n` +
+        `----------------------------------------\n` +
+        `${text}\n\n` +
+        `----------------------------------------\n` +
+        `Generated on: ${new Date().toLocaleString()}\n`;
+
+      const blob = new Blob([report], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Summary_Report_${new Date().getTime()}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Report downloaded!', 'download_done', 'success');
+    });
   }
 
   function updateStatsUI() {
@@ -562,7 +710,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!el) return;
       const text = el.textContent.trim();
       if (!text || text === 'Awaiting translation...' || text.startsWith('Failed to translate')) return;
-      
+
       // Get lang code for this slot
       const targets = getActivePalette();
       const target = targets.find(t => t.id === slotId);
