@@ -50,6 +50,8 @@ async function createUser(email, password, username = '') {
       body: JSON.stringify({ email: normalizedEmail, passwordHash, username: username.trim() })
     });
     
+    if (!response.ok) throw new Error(`Server returned ${response.status}`);
+    
     const result = await response.json();
     return result;
   } catch (err) {
@@ -74,6 +76,8 @@ async function authenticateUser(email, password) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: normalizedEmail, passwordHash })
     });
+    
+    if (!response.ok) throw new Error(`Server returned ${response.status}`);
     
     const result = await response.json();
     return result;
