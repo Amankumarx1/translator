@@ -398,6 +398,50 @@
     localStorage.setItem('atelier_font_size', val);
   });
 
+  // --- Appearance Toggles ---
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const autoTranslateToggle = document.getElementById('autoTranslateToggle');
+  const fontSizeSlider = document.getElementById('fontSizeSlider');
+
+  function updateToggleUI(el, active) {
+    const thumb = el.querySelector('.toggle-thumb');
+    if (active) {
+      el.classList.add('bg-primary');
+      el.classList.remove('bg-surface-container-high');
+      thumb.classList.add('translate-x-6');
+    } else {
+      el.classList.remove('bg-primary');
+      el.classList.add('bg-surface-container-high');
+      thumb.classList.remove('translate-x-6');
+    }
+  }
+
+  // Load Appearance Prefs
+  let isDarkMode = localStorage.getItem('atelier_dark_mode') === 'true';
+  let isAutoTranslate = localStorage.getItem('atelier_auto_translate') === 'true';
+  let currentFontSize = localStorage.getItem('atelier_font_size') || '16';
+
+  updateToggleUI(darkModeToggle, isDarkMode);
+  updateToggleUI(autoTranslateToggle, isAutoTranslate);
+  if (fontSizeSlider) fontSizeSlider.value = currentFontSize;
+
+  darkModeToggle?.addEventListener('click', () => {
+    isDarkMode = !isDarkMode;
+    localStorage.setItem('atelier_dark_mode', isDarkMode);
+    updateToggleUI(darkModeToggle, isDarkMode);
+    document.documentElement.classList.toggle('dark', isDarkMode);
+  });
+
+  autoTranslateToggle?.addEventListener('click', () => {
+    isAutoTranslate = !isAutoTranslate;
+    localStorage.setItem('atelier_auto_translate', isAutoTranslate);
+    updateToggleUI(autoTranslateToggle, isAutoTranslate);
+  });
+
+  fontSizeSlider?.addEventListener('input', () => {
+    localStorage.setItem('atelier_font_size', fontSizeSlider.value);
+  });
+
   // Save (Engine mainly, Appearance is saved instantly)
   document.getElementById('saveSettingsBtn').addEventListener('click', async () => {
     const engine = document.querySelector('input[name="engine"]:checked')?.value || 'google';
@@ -405,9 +449,9 @@
     
     const settings = {
       engine,
-      darkMode: localStorage.getItem('atelier_dark_mode') === 'true',
-      autoTranslate: localStorage.getItem('atelier_auto_translate') === 'true',
-      fontSize: localStorage.getItem('atelier_font_size') || '16'
+      darkMode: isDarkMode,
+      autoTranslate: isAutoTranslate,
+      fontSize: fontSizeSlider.value
     };
 
     if (engine === 'azure') {
@@ -454,6 +498,8 @@
 
   requireAuth();
   initAuthUI();
+  // Set initial dark mode on page load
+  if (isDarkMode) document.documentElement.classList.add('dark');
   document.getElementById('logoutLink')?.addEventListener('click', (e) => { e.preventDefault(); logout(); });
 </script>
 </body>

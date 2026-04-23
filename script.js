@@ -674,6 +674,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (translateBtn) translateBtn.addEventListener('click', translateAll);
+  // ─── Auto-Translate Logic ─────────────────────────────────
+  let debounceTimeout;
+  if (inputText) {
+    inputText.addEventListener('input', () => {
+      const isAutoTranslate = localStorage.getItem('atelier_auto_translate') === 'true';
+      if (!isAutoTranslate) return;
+
+      if (debounceTimeout) clearTimeout(debounceTimeout);
+      debounceTimeout = setTimeout(() => {
+        translateAll();
+      }, 800); // 800ms debounce
+    });
+  }
+
   if (summarizeBtn) summarizeBtn.addEventListener('click', summarizeText);
   if (closeSummaryBtn) closeSummaryBtn.addEventListener('click', closeSummary);
   if (summaryModal) {
@@ -768,6 +782,19 @@ document.addEventListener('DOMContentLoaded', () => {
     totalTranslations = history.length;
     totalWords = history.reduce((sum, h) => sum + (h.input || '').split(/\s+/).filter(Boolean).length, 0);
     updateStatsUI();
+    
+    // Apply Appearance Prefs
+    const isDarkMode = localStorage.getItem('atelier_dark_mode') === 'true';
+    if (isDarkMode) document.documentElement.classList.add('dark');
+    
+    const fontSize = localStorage.getItem('atelier_font_size') || '16';
+    applyFontSize(fontSize);
+  }
+
+  function applyFontSize(size) {
+    const px = `${size}px`;
+    if (inputText) inputText.style.fontSize = px;
+    document.querySelectorAll('[id^="result-"]').forEach(el => el.style.fontSize = px);
   }
 
   loadSession();
