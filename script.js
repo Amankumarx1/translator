@@ -31,9 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const summaryResult = document.getElementById('summaryResult');
   const closeSummaryBtn = document.getElementById('closeSummaryBtn');
   const copySummaryBtn = document.getElementById('copySummaryBtn');
-  const downloadSummaryBtn = document.getElementById('downloadSummaryBtn');
+  const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+  const downloadDocBtn = document.getElementById('downloadDocBtn');
   const summaryCompression = document.getElementById('summaryCompression');
   const summarySentences = document.getElementById('summarySentences');
+
+  const reportTemplate = document.getElementById('reportTemplate');
 
   // Translation targets: { id suffix, lang code, label }
   // Translation targets loaded from global palette
@@ -560,6 +563,103 @@ document.addEventListener('DOMContentLoaded', () => {
     summaryModal.classList.add('opacity-0', 'pointer-events-none');
     summaryModal.querySelector('#summaryModalContent').classList.add('scale-95');
     summaryModal.querySelector('#summaryModalContent').classList.remove('scale-100');
+  }
+
+  // ─── Export Logic (PDF/DOC) ────────────────────────────────
+  function populateReportTemplate() {
+    const text = summaryText.textContent;
+    const user = typeof getCurrentUser === 'function' ? getCurrentUser() : { name: 'Valued User', email: '' };
+    
+    const preparedBy = document.getElementById('reportPreparedBy');
+    const company = document.getElementById('reportCompany');
+    const date = document.getElementById('reportDate');
+    const highlights = document.getElementById('reportHighlights');
+    const metrics = document.getElementById('reportMetrics');
+    const keyPoints = document.getElementById('reportKeyPoints');
+
+    if (preparedBy) preparedBy.textContent = user.name || 'Valued User';
+    if (company) company.textContent = 'The Linguistic Atelier';
+    if (date) date.textContent = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    if (highlights) highlights.textContent = text;
+    if (metrics) metrics.textContent = summaryCompression.textContent;
+    if (keyPoints) keyPoints.textContent = summarySentences.textContent;
+    
+    // Update company name placeholders in text
+    document.querySelectorAll('.reportCompanyName').forEach(el => el.textContent = 'The Linguistic Atelier');
+  }
+
+  if (downloadPdfBtn) {
+    downloadPdfBtn.addEventListener('click', async () => {
+      const text = summaryText.textContent;
+      if (!text || text.startsWith('Your summary') || text.startsWith('Error')) return;
+
+      showToast('Preparing PDF Report...', 'picture_as_pdf', 'success');
+      populateReportTemplate();
+      
+      const originalDisplay = reportTemplate.style.display;
+      reportTemplate.style.display = 'block'; // Temporarily show for capture
+
+      try {
+        const canvas = await html2canvas(reportTemplate, {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          backgroundColor: '#ffffff'
+        });
+        
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`Summary_Report_${new Date().getTime()}.pdf`);
+        showToast('PDF Exported!', 'check_circle', 'success');
+      } catch (err) {
+        console.error('PDF Error:', err);
+        showToast('PDF Export failed.', 'error', 'error');
+      } finally {
+        reportTemplate.style.display = originalDisplay;
+      }
+    });
+  }
+
+  if (downloadDocBtn) {
+    downloadDocBtn.addEventListener('click', () => {
+      const text = summaryText.textContent;
+      if (!text || text.startsWith('Your summary') || text.startsWith('Error')) return;
+
+      showToast('Preparing DOC Report...', 'description', 'success');
+      populateReportTemplate();
+
+      const content = reportTemplate.innerHTML;
+      const html = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><meta charset='utf-8'><title>Summary Report</title>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; }
+          .hidden { display: none; }
+          h1 { text-align: center; font-size: 24pt; }
+          h2 { border-bottom: 1px solid #ccc; font-size: 18pt; margin-top: 20pt; }
+          .header-bar { background-color: #7a9d91; color: white; padding: 10px; text-align: center; font-size: 9pt; }
+        </style>
+        </head>
+        <body>${content}</body>
+        </html>`;
+
+      const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Summary_Report_${new Date().getTime()}.doc`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('DOC Exported!', 'check_circle', 'success');
+    });
   }
 
   if (summarizeBtn) summarizeBtn.addEventListener('click', summarizeText);

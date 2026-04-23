@@ -82,6 +82,8 @@
         }
     </script>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="languages.js"></script>
     <script src="prefs.js"></script>
 </head>
@@ -555,16 +557,81 @@
                     </div>
                 </div>
             </div>
-            <div class="p-8 bg-surface-container-low flex gap-4">
-                <button id="copySummaryBtn" class="flex-1 py-4 bg-surface-container-highest text-on-surface rounded-xl font-bold transition-all hover:bg-outline-variant/20 flex items-center justify-center gap-2">
+            <div class="p-8 bg-surface-container-low flex flex-wrap gap-4">
+                <button id="copySummaryBtn" class="flex-1 py-4 bg-surface-container-highest text-on-surface rounded-xl font-bold transition-all hover:bg-outline-variant/20 flex items-center justify-center gap-2 min-w-[150px]">
                     <span class="material-symbols-outlined text-sm">content_copy</span>
-                    Copy to Clipboard
+                    Copy
                 </button>
-                <button id="downloadSummaryBtn" class="flex-1 py-4 bg-tertiary text-on-tertiary rounded-xl font-bold shadow-lg shadow-tertiary/20 transition-transform active:scale-95 flex items-center justify-center gap-2">
-                    <span class="material-symbols-outlined text-sm">download_for_offline</span>
-                    Export Report (.txt)
+                <button id="downloadPdfBtn" class="flex-1 py-4 bg-primary text-on-primary rounded-xl font-bold shadow-lg shadow-primary/20 transition-transform active:scale-95 flex items-center justify-center gap-2 min-w-[150px]">
+                    <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+                    Export PDF
+                </button>
+                <button id="downloadDocBtn" class="flex-1 py-4 bg-tertiary text-on-tertiary rounded-xl font-bold shadow-lg shadow-tertiary/20 transition-transform active:scale-95 flex items-center justify-center gap-2 min-w-[150px]">
+                    <span class="material-symbols-outlined text-sm">description</span>
+                    Export DOC
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Hidden Report Template (strictly matching provided format) -->
+    <div id="reportTemplate" class="hidden" style="width: 800px; padding: 0; font-family: 'Times New Roman', Times, serif; color: #333; background: #fff;">
+        <!-- Header Logo Bar -->
+        <div style="display: flex; align-items: center; justify-content: center; margin: 20px 0; position: relative;">
+            <div style="flex: 1; height: 2px; background: #333;"></div>
+            <div style="width: 40px; height: 40px; border: 2px solid #333; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 24px; background: #fff; margin: 0 20px; z-index: 2;">T.</div>
+            <div style="flex: 1; height: 2px; background: #333;"></div>
+        </div>
+
+        <!-- Teal Contact Bar -->
+        <div style="background: #7a9d91; color: white; padding: 15px 0; text-align: center; font-size: 11px; font-weight: 500; margin-bottom: 50px;">
+            Devon Rd, Hempstead, NY | yourinfo@emailaddress.com | WWW.TEMPLATE.NET | 222 555 7777
+        </div>
+
+        <div style="padding: 0 60px;">
+            <h1 style="text-align: center; font-size: 36px; font-weight: bold; margin-bottom: 50px; color: #222;">Printable Summary Report</h1>
+
+            <div style="margin-bottom: 40px; font-size: 16px; line-height: 1.8;">
+                <p>Prepared by: <span id="reportPreparedBy" style="font-weight: bold;">[YOUR NAME]</span></p>
+                <p>Company: <span id="reportCompany" style="font-weight: bold;">[YOUR COMPANY NAME]</span></p>
+                <p>Date: <span id="reportDate" style="font-weight: bold;">June 9, 2050</span></p>
+            </div>
+
+            <section style="margin-bottom: 40px;">
+                <h2 style="font-size: 22px; font-weight: bold; margin-bottom: 20px;">I. Introduction</h2>
+                <p id="reportIntro" style="line-height: 1.8; font-size: 15px; color: #444;">
+                    Welcome to the <strong>Summary Report</strong> provided by <span class="reportCompanyName">The Linguistic Atelier</span>. This template is designed to help you create concise and informative summary reports for various purposes, such as project updates, performance reviews, or financial summaries. By using this template, you can effectively communicate key information in a clear and organized manner.
+                </p>
+            </section>
+
+            <section style="margin-bottom: 40px;">
+                <h2 style="font-size: 22px; font-weight: bold; margin-bottom: 20px;">II. Executive Summary</h2>
+                <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">A. Overview</h3>
+                <p style="line-height: 1.8; font-size: 15px; color: #444; margin-bottom: 20px;">
+                    Provide a brief overview of the report's purpose and contents. Summarize the main points and key findings that will be discussed in detail in the following sections.
+                </p>
+                <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">B. Highlights</h3>
+                <p id="reportHighlights" style="line-height: 1.8; font-size: 15px; color: #444; padding: 20px; background: #f9f9f9; border-left: 4px solid #7a9d91; font-style: italic;">
+                    [Extracted Summary Content]
+                </p>
+            </section>
+
+            <section style="margin-bottom: 60px;">
+                <h2 style="font-size: 22px; font-weight: bold; margin-bottom: 20px;">III. Key Findings</h2>
+                <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 15px;">A. Performance</h3>
+                <p style="line-height: 1.8; font-size: 15px; color: #444; margin-bottom: 15px;">
+                    Discuss the performance of the subject matter, whether it's a project, department, or individual. Provide quantitative and qualitative data to support your assessment.
+                </p>
+                <ul style="padding-left: 20px; line-height: 2; font-size: 15px; color: #444;">
+                    <li><strong>Metrics:</strong> <span id="reportMetrics">80% Reduction</span> - Includes key performance indicators (KPIs) such as productivity or effectiveness.</li>
+                    <li><strong>Trends:</strong> <span id="reportKeyPoints">3 Sentences</span> - Analyze trends over time to identify patterns or areas needing attention.</li>
+                    <li><strong>Comparisons:</strong> High accuracy verified against original source text.</li>
+                </ul>
+            </section>
+        </div>
+
+        <div style="border-top: 1px solid #eee; padding: 40px 0; margin-top: 40px; font-size: 12px; color: #999; text-align: center;">
+            &copy; 2050 The Linguistic Atelier | Professional AI Services
         </div>
     </div>
 
