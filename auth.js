@@ -40,32 +40,40 @@ async function createUser(email, password, username = '') {
   if (!normalizedEmail || !password) return { success: false, message: 'Email and password are required.' };
   if (!isValidEmail(normalizedEmail)) return { success: false, message: 'Enter a valid email address.' };
 
-  const users = getLocalUsers();
-  if (users[normalizedEmail]) return { success: false, message: 'User already exists.' };
-
   const passwordHash = await hashPassword(password);
-  users[normalizedEmail] = {
-    email: normalizedEmail,
-    passwordHash,
-    username: username.trim(),
-    createdAt: new Date().toISOString()
-  };
   
-  saveLocalUsers(users);
-  return { success: true, user: { email: normalizedEmail, username: username.trim() } };
+  try {
+    const response = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: normalizedEmail, passwordHash, username: username.trim() })
+    });
+    
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    console.error('Signup Error:', err);
+    return { success: false, message: 'Could not connect to the server. Make sure server.js is running.' };
+  }
 }
 
 async function authenticateUser(email, password) {
   const normalizedEmail = normalizeEmail(email);
   const passwordHash = await hashPassword(password);
 
-  const users = getLocalUsers();
-  const user = users[normalizedEmail];
-
-  if (!user) return { success: false, message: 'Account not found.' };
-  if (user.passwordHash !== passwordHash) return { success: false, message: 'Incorrect password.' };
-
-  return { success: true, user: { email: user.email, username: user.username } };
+  try {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: normalizedEmail, passwordHash })
+    });
+    
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    console.error('Login Error:', err);
+    return { success: false, message: 'Could not connect to the server. Make sure server.js is running.' };
+  }
 }
 
 

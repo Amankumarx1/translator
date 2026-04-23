@@ -444,16 +444,18 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('atelier_last_input', query);
     localStorage.setItem('atelier_last_results', JSON.stringify(savedResultMap));
 
-    // Add to history
-    const historyEntry = {
-      input: query,
-      results: historyResultMap,
-      timestamp: new Date().toISOString(),
-      engine: selectedEngine
-    };
-
-
-    // Server sync removed (Local Only Mode)
+    const user = getCurrentUser();
+    if (user && user.email) {
+      try {
+        await fetch('/api/user/save-history', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: user.email, entry: historyEntry })
+        });
+      } catch (err) {
+        console.error('Failed to sync history to server:', err);
+      }
+    }
 
     const history = JSON.parse(localStorage.getItem('atelier_history') || '[]');
     history.unshift(historyEntry);
@@ -721,7 +723,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const user = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
     let history = JSON.parse(localStorage.getItem('atelier_history') || '[]');
 
-    // Session loading from server removed (Local Only Mode)
+    if (user && user.email) {
+      try {
+        const response = await fetch(`/api/user/data?email=${encodeURIComponent(user.email)}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            history = data.history || history;
+            if (data.settings) {
+              // Apply settings if needed
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load data from server:', err);
+      }
+    }
 
     // Restore last input/results
     const lastInput = localStorage.getItem('atelier_last_input');
