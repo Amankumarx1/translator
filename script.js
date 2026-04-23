@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // ─── State ────────────────────────────────────────────────
   let totalTranslations = 0;
   let totalWords = 0;
-  const BASE_URL = window.location.origin === 'null' || window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
 
   // Apply dark mode immediately to prevent flash
   if (localStorage.getItem('atelier_dark_mode') === 'true') {
