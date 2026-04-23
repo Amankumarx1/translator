@@ -344,11 +344,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   }
 
-  async function translateAll() {
+  async function translateAll(isAuto = false) {
     const query = inputText.value.trim();
     if (!query) {
-      showToast('Please enter some text first.', 'warning', 'warning');
-      inputText.focus();
+      if (!isAuto) showToast('Please enter some text first.', 'warning', 'warning');
+      if (!isAuto) inputText.focus();
       return;
     }
 
@@ -680,7 +680,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (translateBtn) translateBtn.addEventListener('click', translateAll);
+  if (translateBtn) translateBtn.addEventListener('click', () => translateAll(false));
   // ─── Auto-Translate Logic ─────────────────────────────────
   let debounceTimeout;
   if (inputText) {
@@ -690,8 +690,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (debounceTimeout) clearTimeout(debounceTimeout);
       debounceTimeout = setTimeout(() => {
-        translateAll();
-      }, 800); // 800ms debounce
+        const text = inputText.value.trim();
+        if (!text) return; // Silently skip if empty
+        if (translateBtn.disabled) return; // Skip if already translating
+        translateAll(true);
+      }, 1000);
     });
   }
 
