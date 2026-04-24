@@ -12,7 +12,7 @@ function saveLocalUsers(users) {
 }
 
 function isAuthenticated() {
-  return Boolean(sessionStorage.getItem(AUTH_USER_KEY));
+  return Boolean(localStorage.getItem(AUTH_USER_KEY));
 }
 
 function requireAuth(redirectTo = 'login.html') {
@@ -102,16 +102,16 @@ function loginUser(user) {
     email: user.email || '',
     loggedAt: new Date().toISOString()
   };
-  sessionStorage.setItem(AUTH_USER_KEY, JSON.stringify(payload));
+  localStorage.setItem(AUTH_USER_KEY, JSON.stringify(payload));
 }
 
 function logout() {
-  sessionStorage.removeItem(AUTH_USER_KEY);
+  localStorage.removeItem(AUTH_USER_KEY);
   window.location.href = 'login.html';
 }
 
 function getCurrentUser() {
-  const raw = sessionStorage.getItem(AUTH_USER_KEY);
+  const raw = localStorage.getItem(AUTH_USER_KEY);
   return raw ? JSON.parse(raw) : null;
 }
 
