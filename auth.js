@@ -97,6 +97,10 @@ async function authenticateUser(email, password) {
 
 
 function loginUser(user) {
+  localStorage.removeItem('atelier_last_input');
+  localStorage.removeItem('atelier_last_results');
+  localStorage.removeItem('atelier_history');
+  
   const payload = {
     username: user.username || 'Guest',
     email: user.email || '',
@@ -107,6 +111,9 @@ function loginUser(user) {
 
 function logout() {
   localStorage.removeItem(AUTH_USER_KEY);
+  localStorage.removeItem('atelier_last_input');
+  localStorage.removeItem('atelier_last_results');
+  localStorage.removeItem('atelier_history');
   window.location.href = 'login.html';
 }
 
